@@ -72,23 +72,13 @@ public class FileHandlerTest {
         }
     }
 
-    private static void removeDirectory(Path path) {
-        File directoryToBeDeleted = new File(path.toString());
-        File[] allContents = directoryToBeDeleted.listFiles();
-        if (allContents != null) {
-            for (File file : allContents) {
+    private static void removeDirectory(Path filePath) {
+        File[] directoryToDelete = new File(filePath.toString()).listFiles();
+        if(directoryToDelete != null) {
+            for (File file : directoryToDelete) {
                 removeDirectory(Paths.get(file.getPath()));
             }
         }
-        directoryToBeDeleted.delete();
-//        File[] files = new File(path.toString()).listFiles();
-//        for(File file: files) {
-//            file.delete();
-//        }
-//        try {
-//            Files.delete(path);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        new File(filePath.toString()).delete();
     }
 }
