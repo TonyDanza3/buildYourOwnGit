@@ -22,7 +22,7 @@ public class FileHandler {
     public void clearFile() {
     }
 
-    public void createFile(Path filePath) {
+    public void createFile(Path filePath)  {
         if (new File(filePath.toString()).exists()) {
             throw new RuntimeException("File " + filePath + " already exists");
         }
