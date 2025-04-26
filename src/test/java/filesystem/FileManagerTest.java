@@ -1,4 +1,4 @@
-package file;
+package filesystem;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -8,21 +8,22 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static filesystem.FileTestUtils.*;
 
-public class FileHandlerTest {
+public class FileManagerTest {
     private static final String resourcesDir = "src/test/resources";
     private static final String createdFilesFolder = resourcesDir + "/createdFiles";
     private static final Path newTestFile = Paths.get(createdFilesFolder + "/newTestFile");
     private static final Path duplicateFile = Paths.get(createdFilesFolder + "/duplicateFile");
     private static final String nonExistentDirectory = resourcesDir + "/createdFiles/nonExistentDirectory";
-    private final FileHandler fileHandler = new FileHandler();
+    private final FileManager fileManager = new FileManager();
 
     @AfterAll
     public static void removeDirs() {
-        removeDirectory(Paths.get(createdFilesFolder));
-        removeDirectory(newTestFile);
-        removeDirectory(duplicateFile);
-        removeDirectory(Paths.get(nonExistentDirectory));
+        recursivelyRemoveDirectory(Paths.get(createdFilesFolder));
+        recursivelyRemoveDirectory(newTestFile);
+        recursivelyRemoveDirectory(duplicateFile);
+        recursivelyRemoveDirectory(Paths.get(nonExistentDirectory));
     }
 
     @Test
@@ -31,7 +32,7 @@ public class FileHandlerTest {
         assertThat(fileExists(newTestFile))
                 .as("Test file should not yet be created")
                 .isFalse();
-        fileHandler.createFile(newTestFile);
+        fileManager.createFile(newTestFile);
         assertThat(fileExists(newTestFile))
                 .as("Test file is not created")
                 .isTrue();
@@ -40,14 +41,14 @@ public class FileHandlerTest {
     @Test
     public void createDuplicateFile() {
         createDirIfNotExists(createdFilesFolder);
-        fileHandler.createFile(duplicateFile);
-        assertThrows(RuntimeException.class, () -> fileHandler.createFile(duplicateFile));
+        fileManager.createFile(duplicateFile);
+        assertThrows(RuntimeException.class, () -> fileManager.createFile(duplicateFile));
     }
 
     @Test
     public void createFileInNonExistentDirectory() {
         Path fileDir = Paths.get(nonExistentDirectory + "/someFile");
-        assertThrows(RuntimeException.class, () -> fileHandler.createFile(fileDir));
+        assertThrows(RuntimeException.class, () -> fileManager.createFile(fileDir));
     }
 
     private boolean fileExists(Path filePath) {
@@ -58,27 +59,9 @@ public class FileHandlerTest {
         return file.exists();
     }
 
-    private boolean directoryExists(Path directory) {
-        File file = new File(directory.toString());
-        if (file.isFile()) {
-            throw new RuntimeException(directory + " is expected to be a directory but it is a file");
-        }
-        return file.exists();
-    }
-
     private void createDirIfNotExists(String dir) {
         if (!directoryExists(Paths.get(dir))) {
             new File(dir).mkdir();
         }
-    }
-
-    private static void removeDirectory(Path filePath) {
-        File[] directoryToDelete = new File(filePath.toString()).listFiles();
-        if(directoryToDelete != null) {
-            for (File file : directoryToDelete) {
-                removeDirectory(Paths.get(file.getPath()));
-            }
-        }
-        new File(filePath.toString()).delete();
     }
 }

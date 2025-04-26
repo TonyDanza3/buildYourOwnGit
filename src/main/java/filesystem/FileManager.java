@@ -1,4 +1,4 @@
-package file;
+package filesystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public class FileHandler {
+public class FileManager {
 
     public void appendToFile(Path filePath, String str) {
         try {
@@ -21,6 +21,8 @@ public class FileHandler {
 
     public void clearFile() {
     }
+    public void deleteFile() {
+    }
 
     public void createFile(Path filePath)  {
         if (new File(filePath.toString()).exists()) {
@@ -31,16 +33,5 @@ public class FileHandler {
         } catch (IOException e) {
             throw new RuntimeException("Could not create file " + filePath + " : " + e);
         }
-    }
-
-    public void createDirectory(Path path) {
-        try {
-            Files.createDirectory(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void deleteFile() {
     }
 }
