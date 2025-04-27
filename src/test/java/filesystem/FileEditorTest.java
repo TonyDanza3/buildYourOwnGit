@@ -48,7 +48,7 @@ public class FileEditorTest {
     }
 
     @Test
-    public void editFile() {
+    public void replaceLineInTheMiddle() {
         fileEditor.replaceLine(fileOne, 2, "    public static void main(String[] args) {")
                 .replaceLine(fileOne, 3, "    }");
         try {
@@ -61,6 +61,8 @@ public class FileEditorTest {
             throw new RuntimeException(e);
         }
     }
+
+    //TODO: think about replaceInTheBeginning and inTheEnd tests
 
     @Test
     public void writeToEmptyFile() {
