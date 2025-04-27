@@ -8,21 +8,6 @@ import java.nio.file.StandardOpenOption;
 
 public class FileManager {
 
-    public void appendToFile(Path filePath, String str) {
-        try {
-            Files.writeString(filePath, str, StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not append to file " + filePath + " : " + e);
-        }
-    }
-
-    public void replaceWholeFile(Path filePath, String str) {
-    }
-
-    public void clearFile() {
-    }
-    public void deleteFile() {
-    }
 
     public void createFile(Path filePath)  {
         if (new File(filePath.toString()).exists()) {
@@ -33,5 +18,9 @@ public class FileManager {
         } catch (IOException e) {
             throw new RuntimeException("Could not create file " + filePath + " : " + e);
         }
+    }
+
+    public void deleteFile(Path path) {
+        new File(String.valueOf(path)).delete();
     }
 }

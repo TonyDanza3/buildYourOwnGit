@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static filesystem.FileTestUtils.*;
+import static utils.FileTestUtils.*;
 
 public class FileManagerTest {
     private static final String resourcesDir = "src/test/resources";

@@ -3,13 +3,12 @@ package filesystem;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static filesystem.FileTestUtils.*;
+import static utils.FileTestUtils.*;
 
 public class DirectoryManagerTest {
 
