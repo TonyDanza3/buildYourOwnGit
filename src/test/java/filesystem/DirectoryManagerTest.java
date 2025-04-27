@@ -19,7 +19,6 @@ public class DirectoryManagerTest {
     private static final Path recDir = Path.of(resourcesDir + "/directoryRec");
     private final String ERRshouldHaveBeenCreated = "Directory %s does not exist but it should have been created";
     private final String ERRshouldHaveBeenRemoved = "Directory %s still exists but should have been removed";
-    private Formatter formatter = new Formatter();
     private List<Path> childRecDirs = List.of(
             Path.of(recDir + "/one"),
             Path.of(recDir + "/two"),
@@ -76,7 +75,10 @@ public class DirectoryManagerTest {
     }
 
     private String formatErrMessage(String message, Path dirName) {
-        return formatter.format(message, dirName).toString();
+        Formatter formatter = new Formatter();
+        String result = formatter.format(message, dirName).toString();
+        formatter.close();
+        return result;
     }
 
     private boolean allExists(List<Path> dirs) {
