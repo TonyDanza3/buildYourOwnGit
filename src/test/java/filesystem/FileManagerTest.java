@@ -51,17 +51,4 @@ public class FileManagerTest {
         assertThrows(RuntimeException.class, () -> fileManager.createFile(fileDir));
     }
 
-    private boolean fileExists(Path filePath) {
-        File file = new File(filePath.toString());
-        if (file.isDirectory()) {
-            throw new RuntimeException(filePath + " is expected to be a file but it is a directory");
-        }
-        return file.exists();
-    }
-
-    private void createDirIfNotExists(String dir) {
-        if (!directoryExists(Paths.get(dir))) {
-            new File(dir).mkdir();
-        }
-    }
 }

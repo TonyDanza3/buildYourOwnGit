@@ -20,34 +20,26 @@ public class FileEditor {
         }
     }
 
-    public List<String> replaceLine(Path path, int lineNumber, String newValue) throws IOException {
+    public FileEditor replaceLine(Path path, int lineNumber, String newValue) {
         checkIfFile(path);
         checkIfExceedsFileSize(path, lineNumber);
         try (Stream<String> lines = Files.lines(path)) {
             ArrayList<String> linesList = new ArrayList<>(lines.toList());
-            linesList.add(lineNumber, newValue);
-            return linesList;
+            linesList.set(lineNumber - 1, newValue);
+            writeToFile(path, linesList);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not replace line " + lineNumber + " in file " + path + " :" + e);
         }
+        return this;
     }
 
     public void writeToFile(Path path, List<String> lines) {
-        StringBuilder builder = new StringBuilder();
-        lines.forEach(line -> {
-            builder.append(line);
-            builder.append("\n");
-        });
         try {
-            Files.writeString(path, builder.toString(), StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(path, lines, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Could not write to file " + path + ": " + e);
         }
     }
-
-//    public List<String> replaceLine(List<String> lines, int lineNumber, String newValue) {
-//        lines.add(lineNumber, newValue);
-//        return lines;
-//    }
-
 
     public void replaceWholeFile(Path filePath, String str) {
     }

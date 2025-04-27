@@ -19,7 +19,7 @@ public class FileManager {
             throw new RuntimeException("Could not create file " + filePath + " : " + e);
         }
     }
-
+//TODO: cover with tests
     public void deleteFile(Path path) {
         new File(String.valueOf(path)).delete();
     }
