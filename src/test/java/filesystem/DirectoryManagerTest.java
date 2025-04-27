@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Formatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +17,9 @@ public class DirectoryManagerTest {
     private static final Path createdDir = Path.of(resourcesDir + "/directoryManager");
     private static final Path removedDir = Path.of(resourcesDir + "/directoryToRemove");
     private static final Path recDir = Path.of(resourcesDir + "/directoryRec");
+    private final String ERRshouldHaveBeenCreated = "Directory %s does not exist but it should have been created";
+    private final String ERRshouldHaveBeenRemoved = "Directory %s still exists but should have been removed";
+    private Formatter formatter = new Formatter();
     private List<Path> childRecDirs = List.of(
             Path.of(recDir + "/one"),
             Path.of(recDir + "/two"),
@@ -40,7 +44,7 @@ public class DirectoryManagerTest {
                 .isFalse();
         directoryManager.createDirectory(createdDir);
         assertThat(directoryExists(createdDir))
-                .withFailMessage("Directory " + createdDir + " does not exist but it should have been created")
+                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, createdDir))
                 .isTrue();
     }
 
@@ -48,11 +52,11 @@ public class DirectoryManagerTest {
     public void removeDirectory() {
         directoryManager.createDirectory(removedDir);
         assertThat(directoryExists(removedDir))
-                .withFailMessage("Directory " + removedDir + " does not exist but it should have been created")
+                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))
                 .isTrue();
         directoryManager.removeDirectory(removedDir);
         assertThat(directoryExists(removedDir))
-                .withFailMessage("Directory " + removedDir + " still exists but should have been removed")
+                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, removedDir))
                 .isFalse();
     }
 
@@ -61,14 +65,18 @@ public class DirectoryManagerTest {
         directoryManager.createDirectory(recDir);
         childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));
         assertThat(directoryExists(recDir))
-                .withFailMessage("Directory " + removedDir + " does not exist but it should have been created")
+                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))
                 .isTrue();
         assertThat(allExists(childRecDirs)).isTrue();
         directoryManager.removeDirectory(recDir);
         assertThat(directoryExists(recDir))
-                .withFailMessage("Directory " + recDir + " still exists but should have been removed")
+                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, recDir))
                 .isFalse();
         assertThat(allExists(childRecDirs)).isFalse();
+    }
+
+    private String formatErrMessage(String message, Path dirName) {
+        return formatter.format(message, dirName).toString();
     }
 
     private boolean allExists(List<Path> dirs) {
