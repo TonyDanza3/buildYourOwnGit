@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -73,7 +72,7 @@ public class FileEditorTest {
     @Test
     public void writeToEmptyFile() {
         String expected = mainMethodFormatted + "\n\n" + additionalMethod;
-        fileEditor.writeToFile(fileTwo, List.of(expected));
+        fileEditor.replaceFileContents(fileTwo, List.of(expected));
         assertThat(fileContentsIsEqualTo(fileTwo, expected))
                 .isTrue();
     }
@@ -83,7 +82,7 @@ public class FileEditorTest {
         String initialFileContents = fileToString(fileOne);
         String expected = initialFileContents + mainMethodUnformatted;
         fileEditor.appendToFile(fileOne, mainMethodUnformatted);
-        assertThat(fileContentsIsEqualTo(fileTwo, expected)).isTrue();
+        assertThat(fileContentsIsEqualTo(fileOne, expected)).isTrue();
 
     }
 

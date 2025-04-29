@@ -26,25 +26,19 @@ public class FileEditor {
         try (Stream<String> lines = Files.lines(path)) {
             ArrayList<String> linesList = new ArrayList<>(lines.toList());
             linesList.set(lineNumber - 1, newValue);
-            writeToFile(path, linesList);
+            replaceFileContents(path, linesList);
         } catch (IOException e) {
             throw new RuntimeException("Could not replace line " + lineNumber + " in file " + path + " :" + e);
         }
         return this;
     }
 
-    public void writeToFile(Path path, List<String> lines) {
+    public void replaceFileContents(Path path, List<String> lines) {
         try {
             Files.writeString(path, composeFileContentsWithoutTrailingNextLine(lines), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Could not write to file " + path + ": " + e);
         }
-    }
-
-    public void replaceWholeFile(Path filePath, String str) {
-    }
-
-    public void clearFile() {
     }
 
     private String composeFileContentsWithoutTrailingNextLine(List<String> strings) {
