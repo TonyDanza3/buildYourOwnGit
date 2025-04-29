@@ -67,8 +67,6 @@ public class FileEditorTest {
                 .isTrue();
     }
 
-    //TODO: think about replaceInTheBeginning and inTheEnd tests
-
     @Test
     public void writeToEmptyFile() {
         String expected = mainMethodFormatted + "\n\n" + additionalMethod;
