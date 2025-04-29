@@ -15,6 +15,12 @@ public class DirectoryManager {
         }
     }
 
+    public void createDirectoryIfNotExists(Path path) {
+        if(!Files.exists(path)) {
+            createDirectory(path);
+        }
+    }
+
     public void removeDirectory(Path path) {
         File [] childDirs = new File(String.valueOf(path)).listFiles();
         if(childDirs != null) {
