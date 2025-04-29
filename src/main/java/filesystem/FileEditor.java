@@ -35,7 +35,7 @@ public class FileEditor {
 
     public void writeToFile(Path path, List<String> lines) {
         try {
-            Files.write(path, lines, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.writeString(path, composeFileContentsWithoutTrailingNextLine(lines), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Could not write to file " + path + ": " + e);
         }
@@ -45,5 +45,18 @@ public class FileEditor {
     }
 
     public void clearFile() {
+    }
+
+    private String composeFileContentsWithoutTrailingNextLine(List<String> strings) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < strings.size(); i++) {
+            if (i == strings.size() - 1) {
+                result.append(strings.get(i));
+            } else {
+                result.append(strings.get(i));
+                result.append("\n");
+            }
+        }
+        return result.toString();
     }
 }
