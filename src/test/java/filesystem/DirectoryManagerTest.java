@@ -32,14 +32,14 @@ public class DirectoryManagerTest {
     );
     DirectoryManager directoryManager = new DirectoryManager();
 
-//    @AfterAll
-//    public static void clearTestDirectories() {
-//        recursivelyRemoveDirectory(createdDir);
-//        recursivelyRemoveDirectory(removedDir);
-//        recursivelyRemoveDirectory(recDir);
-//        recursivelyRemoveDirectory(duplicateDir);
-//        recursivelyRemoveDirectory(idempotentDuplicateDir);
-//    }
+    @AfterAll
+    public static void clearTestDirectories() {
+        recursivelyRemoveDirectory(createdDir);
+        recursivelyRemoveDirectory(removedDir);
+        recursivelyRemoveDirectory(recDir);
+        recursivelyRemoveDirectory(duplicateDir);
+        recursivelyRemoveDirectory(idempotentDuplicateDir);
+    }
 
     @Test
     public void createDirectory() {

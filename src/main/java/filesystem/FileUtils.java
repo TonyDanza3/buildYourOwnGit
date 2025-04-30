@@ -38,18 +38,18 @@ public class FileUtils {
         }
     }
 
-    public static String getDirectoryFromPath(Path dir) {
+    public static Path getDirectoryFromPath(Path dir) {
         List<String> tokens = List.of(dir.toString().split("/"));
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < tokens.size() - 1; i++) {
             result.append(tokens.get(i));
             result.append("/");
         }
-        return result.toString();
+        return Path.of(result.toString());
     }
 
-    public static String getFileNameFromPath(Path dir) {
+    public static Path getFileNameFromPath(Path dir) {
         List<String> tokens = List.of(dir.toString().split("/"));
-        return tokens.get(tokens.size() - 1);
+        return Path.of(tokens.get(tokens.size() - 1));
     }
 }
