@@ -48,6 +48,10 @@ public class FileUtils {
         return Path.of(result.toString());
     }
 
+    public static List<String> directoryAsTokens(Path dir){
+        return List.of(dir.toString().split("/"));
+    }
+
     public static Path getFileNameFromPath(Path dir) {
         List<String> tokens = List.of(dir.toString().split("/"));
         return Path.of(tokens.get(tokens.size() - 1));

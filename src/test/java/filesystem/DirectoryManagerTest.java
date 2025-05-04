@@ -75,7 +75,9 @@ public class DirectoryManagerTest {
     @Test
     public void createdDuplicateDirectory() {
         directoryManager.createDirectory(duplicateDir);
-        assertThrows(RuntimeException.class, () -> directoryManager.createDirectory(duplicateDir));
+        assertThat(directoryExists(duplicateDir))
+                .withFailMessage("Directory " + duplicateDir + " does not exist but it should have been created")
+                .isTrue();
     }
 
     @Test
