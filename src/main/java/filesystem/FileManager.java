@@ -8,14 +8,13 @@ import java.nio.file.StandardOpenOption;
 
 public class FileManager {
 
-    public void createFile(Path filePath)  {
-        if (new File(filePath.toString()).exists()) {
-            throw new RuntimeException("File " + filePath + " already exists");
-        }
-        try {
-            Files.createFile(filePath);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not create file " + filePath + " : " + e);
+    public void createFile(Path filePath) {
+        if (!new File(filePath.toString()).exists()) {
+            try {
+                Files.createFile(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not create file " + filePath + " : " + e);
+            }
         }
     }
 //TODO: cover with tests
