@@ -19,6 +19,7 @@ public class DirectoryManagerTest {
     private static final Path removedDir = Path.of(resourcesDir + "/directoryToRemove");
     private static final Path recDir = Path.of(resourcesDir + "/directoryRec");
     private static final Path duplicateDir = Path.of(resourcesDir + "/duplicate");
+    private static final Path deepNestingLevelDir = Path.of(resourcesDir + "/levelOne/LevelTwo/LevelThree/LeverFour");
     private static final Path idempotentDuplicateDir = Path.of(resourcesDir + "/idempotentDuplicate");
     private final String ERRshouldHaveBeenCreated = "Directory %s does not exist but it should have been created";
     private final String ERRshouldHaveBeenRemoved = "Directory %s still exists but should have been removed";
@@ -64,6 +65,13 @@ public class DirectoryManagerTest {
                 .isFalse();
     }
 
+    @Test
+    public void createdDirectoryOnDeepNestingLevel() {
+        directoryManager.createDirectory(deepNestingLevelDir);
+        assertThat(directoryExists(deepNestingLevelDir))
+                .withFailMessage("Directory " + deepNestingLevelDir + " does not exist but it should have been created")
+                .isTrue();
+    }
     @Test
     public void createdDuplicateDirectory() {
         directoryManager.createDirectory(duplicateDir);
