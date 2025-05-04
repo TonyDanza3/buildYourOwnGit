@@ -2,6 +2,7 @@ package filesystem;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,7 @@ public class FileManagerTest {
     private static final Path newTestFile = Paths.get(createdFilesFolder + "/newTestFile");
     private static final Path duplicateFile = Paths.get(createdFilesFolder + "/duplicateFile");
     private static final String nonExistentDirectory = resourcesDir + "/createdFiles/nonExistentDirectory";
+    private static final String deletedFiles = resourcesDir + "/deletedFiles";
     private final FileManager fileManager = new FileManager();
 
     @AfterAll
@@ -24,6 +26,7 @@ public class FileManagerTest {
         recursivelyRemoveDirectory(newTestFile);
         recursivelyRemoveDirectory(duplicateFile);
         recursivelyRemoveDirectory(Paths.get(nonExistentDirectory));
+        recursivelyRemoveDirectory(Path.of(deletedFiles));
     }
 
     @Test
@@ -51,4 +54,26 @@ public class FileManagerTest {
         assertThrows(RuntimeException.class, () -> fileManager.createFile(fileDir));
     }
 
+    @Test
+    public void deleteFile() {
+        Path fileDir = Path.of(deletedFiles + "/fileToDelete");
+        createDirIfNotExists(deletedFiles);
+        createFile(fileDir);
+        assertThat(fileExists(fileDir))
+                .withFailMessage("File " + fileDir + " does not exists but it should have been created")
+                .isTrue();
+        fileManager.deleteFile(fileDir);
+
+        assertThat(directoryExists(Path.of(deletedFiles)))
+                .withFailMessage("Seems like directory " + deletedFiles + " is deleted but it should not have been deleted")
+                .isTrue();
+        assertThat(fileExists(fileDir))
+                .withFailMessage("File " + fileDir + " still exists but it should have been deleted")
+                .isFalse();
+    }
+
+    @Test
+    public void deleteNonExistentFile() {
+        fileManager.deleteFile(Path.of(resourcesDir + "/nonExistentFile"));
+    }
 }
