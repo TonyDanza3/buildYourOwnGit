@@ -17,7 +17,7 @@ public class FileManager {
             }
         }
     }
-//TODO: cover with tests
+
     public void deleteFile(Path path) {
         new File(String.valueOf(path)).delete();
     }

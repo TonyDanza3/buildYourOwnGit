@@ -26,16 +26,16 @@ public class FileEditor {
         try (Stream<String> lines = Files.lines(path)) {
             ArrayList<String> linesList = new ArrayList<>(lines.toList());
             linesList.set(lineNumber - 1, newValue);
-            replaceFileContents(path, linesList);
+            replaceFileContents(path, composeFileContentsWithoutTrailingNextLine(linesList));
         } catch (IOException e) {
             throw new RuntimeException("Could not replace line " + lineNumber + " in file " + path + " :" + e);
         }
         return this;
     }
 
-    public void replaceFileContents(Path path, List<String> lines) {
+    public void replaceFileContents(Path path, String content) {
         try {
-            Files.writeString(path, composeFileContentsWithoutTrailingNextLine(lines), StandardOpenOption.TRUNCATE_EXISTING);
+            Files.writeString(path, content, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException("Could not write to file " + path + ": " + e);
         }

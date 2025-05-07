@@ -1,5 +1,6 @@
 package filesystem;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,19 @@ import static utils.FileTestUtils.*;
 
 public class DirectoryManagerTest {
 
+    private final String fileContents = "    public void removeDirectoryRecursively() {\n" +
+            "        directoryManager.createDirectory(recDir);\n" +
+            "        childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));\n" +
+            "        assertThat(directoryExists(recDir))\n" +
+            "                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))\n" +
+            "                .isTrue();\n" +
+            "        assertThat(allExists(childRecDirs)).isTrue();\n" +
+            "        directoryManager.removeDirectory(recDir);\n" +
+            "        assertThat(directoryExists(recDir))\n" +
+            "                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, recDir))\n" +
+            "                .isFalse();\n" +
+            "        assertThat(allExists(childRecDirs)).isFalse();\n" +
+            "    }";
     private static final String resourcesDir = "src/test/resources";
     private static final Path createdDir = Path.of(resourcesDir + "/directoryManager");
     private static final Path removedDir = Path.of(resourcesDir + "/directoryToRemove");
@@ -72,6 +86,46 @@ public class DirectoryManagerTest {
                 .withFailMessage("Directory " + deepNestingLevelDir + " does not exist but it should have been created")
                 .isTrue();
     }
+
+    @Test
+    public void removeDirectoryOnDeepNestingLevel() {
+        createDirIfNotExists(String.valueOf(deepNestingLevelDir));
+        Path levelOneDir = Path.of(resourcesDir + "/levelOne/OtherDir");
+        Path dirOne = Path.of(resourcesDir + "/levelOne/OtherDir");
+        Path dirTwo = Path.of(resourcesDir + "/levelOne/OtherDir2");
+        Path file = Path.of(resourcesDir + "/levelOne/OtherDir2/File2");
+        directoryManager.createDirectory(dirOne);
+        directoryManager.createDirectory(dirTwo);
+        createFile(file);
+        writeToFile(file, fileContents);
+        SoftAssertions assertions = new SoftAssertions();
+        assertions.assertThat(directoryExists(dirOne))
+                .withFailMessage("Directory " + dirOne + " does not exist but it should have been created")
+                .isTrue();
+        assertions.assertThat(directoryExists(dirTwo))
+                .withFailMessage("Directory " + dirTwo + " does not exist but it should have been created")
+                .isTrue();
+        assertions.assertThat(fileExists(file))
+                .withFailMessage("File " + file + " does not exist but it should have been created")
+                .isTrue();
+        assertions.assertThat(fileContentsIsEqualTo(file, fileContents))
+                .withFailMessage("File contents does not match to : \n" + fileContents)
+                .isTrue();
+        directoryManager.removeDirectory(levelOneDir);
+        assertions.assertThat(directoryExists(dirOne))
+                .withFailMessage("Directory " + dirOne + " exists but it should have been deleted")
+                .isFalse();
+        assertions.assertThat(directoryExists(dirTwo))
+                .withFailMessage("Directory " + dirTwo + " exists but it should have been deleted")
+                .isFalse();
+        assertions.assertThat(directoryExists(levelOneDir))
+                .withFailMessage("Directory " + levelOneDir + "/levelOne exists but it should have been deleted")
+                .isFalse();
+        assertions.assertThat(fileExists(file))
+                .withFailMessage("File " + file + " exists but it should have been deleted")
+                .isFalse();
+    }
+
     @Test
     public void createdDuplicateDirectory() {
         directoryManager.createDirectory(duplicateDir);

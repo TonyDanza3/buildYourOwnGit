@@ -70,7 +70,7 @@ public class FileEditorTest {
     @Test
     public void writeToEmptyFile() {
         String expected = mainMethodFormatted + "\n\n" + additionalMethod;
-        fileEditor.replaceFileContents(fileTwo, List.of(expected));
+        fileEditor.replaceFileContents(fileTwo, expected);
         assertThat(fileContentsIsEqualTo(fileTwo, expected))
                 .isTrue();
     }
@@ -94,22 +94,9 @@ public class FileEditorTest {
         assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(fileOne, 100500, "kobasica"));
     }
 
-    private boolean fileContentsIsEqualTo(String fileContents, String equalTo) {
-        return fileContents.trim().equals(equalTo.trim());
-    }
-
     private String fileToString(Path path) {
         try {
             return new String(Files.readAllBytes(path));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private boolean fileContentsIsEqualTo(Path file, String equalTo) {
-        try {
-            String fileContents = new String(Files.readAllBytes(file));
-            return fileContents.equals(equalTo);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

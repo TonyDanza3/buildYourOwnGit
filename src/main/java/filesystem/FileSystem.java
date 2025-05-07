@@ -11,4 +11,16 @@ public class FileSystem {
         directoryManager.createDirectoryIfNotExists(FileUtils.getDirectoryFromPath(path));
         fileManager.createFile(path);
     }
+//TODO
+    public void putContentToFile(Path file, String content) {
+        fileManager.createFile(file);
+        fileEditor.replaceFileContents(file, content);
+    }
+
+    public void deleteFile(Path path) {
+        fileManager.createFile(path);
+    }
+    public void deleteDirectory(Path path) {
+        directoryManager.removeDirectory(path);
+    }
 }

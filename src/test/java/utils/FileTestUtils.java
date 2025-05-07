@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class FileTestUtils {
+
     public static void recursivelyRemoveDirectory(Path filePath) {
         File[] directoryToDelete = new File(filePath.toString()).listFiles();
         if(directoryToDelete != null) {
@@ -54,5 +55,18 @@ public class FileTestUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean fileContentsIsEqualTo(Path file, String equalTo) {
+        try {
+            String fileContents = new String(Files.readAllBytes(file));
+            return fileContents.equals(equalTo);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean fileContentsIsEqualTo(String fileContents, String equalTo) {
+        return fileContents.trim().equals(equalTo.trim());
     }
 }
