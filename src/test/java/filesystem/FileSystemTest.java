@@ -13,6 +13,7 @@ public class FileSystemTest {
 
     private final FileSystem fileSystem = new FileSystem();
     private static final String fileSystemRootDir = "src/test/resources/fileSystem";
+    private static final Path fileWithContents = Path.of(fileSystemRootDir + "/fileWithContents");
     private static final String fileContents = "    public void removeDirectoryRecursively() {\n" +
             "        directoryManager.createDirectory(recDir);\n" +
             "        childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));\n" +
@@ -71,9 +72,15 @@ public class FileSystemTest {
 
     @Test
     public void createDuplicateDoesNotRewriteFileContents() {
-        Path fileWithContents = Path.of(fileSystemRootDir + "/fileWithContents");
-        fileSystem.createFile(fileWithContents);
-        //TODO
-//        fileSystem.
+        SoftAssertions assertions = new SoftAssertions();
+//        fileSystem.createFile(fileWithContents);
+        fileSystem.putContentToFile(fileWithContents, fileContents);
+        assertions.assertThat(fileExists(fileWithContents))
+                .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
+                .isTrue();
+        assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
+                .withFailMessage("File contents is not equal to:\n" + fileContents)
+                .isTrue();
+        assertions.assertAll();
     }
 }
