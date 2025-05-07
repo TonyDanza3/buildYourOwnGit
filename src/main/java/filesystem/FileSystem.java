@@ -13,7 +13,7 @@ public class FileSystem {
     }
 //TODO
     public void putContentToFile(Path file, String content) {
-        fileManager.createFile(file);
+        createFile(file);
         fileEditor.replaceFileContents(file, content);
     }
 

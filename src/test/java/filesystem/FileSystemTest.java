@@ -14,6 +14,7 @@ public class FileSystemTest {
     private final FileSystem fileSystem = new FileSystem();
     private static final String fileSystemRootDir = "src/test/resources/fileSystem";
     private static final Path fileWithContents = Path.of(fileSystemRootDir + "/fileWithContents");
+    private static final Path nonexistentFile = Path.of(fileSystemRootDir + "/nonexistentFile");
     private static final String fileContents = "    public void removeDirectoryRecursively() {\n" +
             "        directoryManager.createDirectory(recDir);\n" +
             "        childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));\n" +
@@ -71,14 +72,34 @@ public class FileSystemTest {
     }
 
     @Test
-    public void createDuplicateDoesNotRewriteFileContents() {
+    public void duplicateDoesNotRewriteFileContents() {
         SoftAssertions assertions = new SoftAssertions();
-//        fileSystem.createFile(fileWithContents);
+        fileSystem.createFile(fileWithContents);
         fileSystem.putContentToFile(fileWithContents, fileContents);
         assertions.assertThat(fileExists(fileWithContents))
                 .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
                 .isTrue();
         assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
+                .withFailMessage("File contents is not equal to:\n" + fileContents)
+                .isTrue();
+        fileSystem.createFile(fileWithContents);
+        assertions.assertThat(fileExists(fileWithContents))
+                .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
+                .isTrue();
+        assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
+                .withFailMessage("File contents is not equal to:\n" + fileContents)
+                .isTrue();
+        assertions.assertAll();
+    }
+
+    @Test
+    public void fillNonExistentFileWithContents() {
+        SoftAssertions assertions = new SoftAssertions();
+        fileSystem.putContentToFile(nonexistentFile, fileContents);
+        assertions.assertThat(fileExists(nonexistentFile))
+                .withFailMessage("File " + nonexistentFile + " does not exist but it should have been created")
+                .isTrue();
+        assertions.assertThat(fileContentsIsEqualTo(nonexistentFile, fileContents))
                 .withFailMessage("File contents is not equal to:\n" + fileContents)
                 .isTrue();
         assertions.assertAll();
