@@ -9,6 +9,20 @@ import java.nio.file.StandardOpenOption;
 
 public class FileTestUtils {
 
+    public static void createDirIfNotExists(String dir) {
+        if (!directoryExists(Paths.get(dir))) {
+            new File(dir).mkdir();
+        }
+    }
+
+    public static void createFile(Path path) {
+        try {
+            Files.createFile(path);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create file " + path + " :" + e);
+        }
+    }
+
     public static void recursivelyRemoveDirectory(Path filePath) {
         File[] directoryToDelete = new File(filePath.toString()).listFiles();
         if(directoryToDelete != null) {
@@ -27,26 +41,12 @@ public class FileTestUtils {
         return file.exists();
     }
 
-    public static void createDirIfNotExists(String dir) {
-        if (!directoryExists(Paths.get(dir))) {
-            new File(dir).mkdir();
-        }
-    }
-
     public static boolean fileExists(Path filePath) {
         File file = new File(filePath.toString());
         if (file.isDirectory()) {
             throw new RuntimeException(filePath + " is expected to be a file but it is a directory");
         }
         return file.exists();
-    }
-
-    public static void createFile(Path path) {
-        try {
-            Files.createFile(path);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not create file " + path + " :" + e);
-        }
     }
 
     public static void writeToFile(Path path, String string) {
