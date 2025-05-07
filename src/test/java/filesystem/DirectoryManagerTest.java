@@ -54,6 +54,7 @@ public class DirectoryManagerTest {
         recursivelyRemoveDirectory(recDir);
         recursivelyRemoveDirectory(duplicateDir);
         recursivelyRemoveDirectory(idempotentDuplicateDir);
+        recursivelyRemoveDirectory(Path.of(resourcesDir + "/levelOne"));
     }
 
     @Test
@@ -124,6 +125,7 @@ public class DirectoryManagerTest {
         assertions.assertThat(fileExists(file))
                 .withFailMessage("File " + file + " exists but it should have been deleted")
                 .isFalse();
+        assertions.assertAll();
     }
 
     @Test
