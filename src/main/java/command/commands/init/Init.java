@@ -4,7 +4,7 @@ import command.Command;
 import command.commands.Commands;
 
 public class Init extends Command {
-//TODO
+
     public Init() {
         super(Commands.INIT);
     }
