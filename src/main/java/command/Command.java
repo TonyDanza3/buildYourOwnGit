@@ -15,5 +15,6 @@ public abstract class Command {
     }
 
     protected abstract void execute();
+
     protected abstract void validateArgs();
 }
