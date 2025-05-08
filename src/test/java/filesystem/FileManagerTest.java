@@ -2,6 +2,7 @@ package filesystem;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import utils.Assertion;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -79,6 +80,9 @@ public class FileManagerTest {
 
     @Test
     public void deleteNonExistentFile() {
-        fileManager.deleteFile(Path.of(resourcesDir + "/nonExistentFile"));
+        Path nonExistentFile = Path.of(resourcesDir + "/nonExistentFile");
+        Assertion.fileNotExists(nonExistentFile);
+        fileManager.deleteFile(nonExistentFile);
+        Assertion.fileNotExists(nonExistentFile);
     }
 }
