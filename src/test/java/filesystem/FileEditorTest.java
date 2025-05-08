@@ -3,6 +3,7 @@ package filesystem;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import utils.Assertion;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,21 +59,14 @@ public class FileEditorTest {
     public void replaceLineInTheMiddle() {
         fileEditor.replaceLine(fileOne, 2, "    public static void main(String[] args) {")
                 .replaceLine(fileOne, 3, "    }");
-        String actualFileContents = fileToString(fileOne);
-        assertThat(fileContentsIsEqualTo(actualFileContents, mainMethodFormatted))
-                .withFailMessage(
-                        "File " + fileOne + " was not edited properly. Result file contents is: \n"
-                                + actualFileContents
-                                + "\nbut expected \n" + mainMethodFormatted)
-                .isTrue();
+        Assertion.fileContentsEqualTo(fileOne, mainMethodFormatted);
     }
 
     @Test
     public void writeToEmptyFile() {
         String expected = mainMethodFormatted + "\n\n" + additionalMethod;
         fileEditor.replaceFileContents(fileTwo, expected);
-        assertThat(fileContentsIsEqualTo(fileTwo, expected))
-                .isTrue();
+        Assertion.fileContentsEqualTo(fileTwo, expected);
     }
 
     @Test
@@ -80,7 +74,7 @@ public class FileEditorTest {
         String initialFileContents = fileToString(fileOne);
         String expected = initialFileContents + mainMethodUnformatted;
         fileEditor.appendToFile(fileOne, mainMethodUnformatted);
-        assertThat(fileContentsIsEqualTo(fileOne, expected)).isTrue();
+        Assertion.fileContentsEqualTo(fileOne, expected);
 
     }
 
