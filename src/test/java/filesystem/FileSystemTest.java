@@ -43,16 +43,16 @@ public class FileSystemTest {
         fileSystem.createFile(coreEngineFile);
         fileSystem.createFile(utilsFile);
         SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(directoryExists(coreEngineFolder))
+        assertions.assertThat(checkDirectoryExists(coreEngineFolder))
                 .withFailMessage("Directory " + coreEngineFolder + " does not exist but it should have been created")
                 .isTrue();
-        assertions.assertThat(directoryExists(utilsFolder))
+        assertions.assertThat(checkDirectoryExists(utilsFolder))
                 .withFailMessage("Directory " + utilsFolder + " does not exist but it should have been created")
                 .isTrue();
-        assertions.assertThat(fileExists(coreEngineFile))
+        assertions.assertThat(checkFileExists(coreEngineFile))
                 .withFailMessage("File " + coreEngineFile + " does not exist but it should have been created")
                 .isTrue();
-        assertions.assertThat(fileExists(utilsFile))
+        assertions.assertThat(checkFileExists(utilsFile))
                 .withFailMessage("File " + utilsFile + " does not exist but it should have been created")
                 .isTrue();
         assertions.assertAll();
@@ -62,11 +62,11 @@ public class FileSystemTest {
     public void createDuplicateFile() {
         Path duplicateFile = Path.of(fileSystemRootDir + "/duplicateFile");
         fileSystem.createFile(duplicateFile);
-        assertThat(fileExists(duplicateFile))
+        assertThat(checkFileExists(duplicateFile))
                 .withFailMessage("File " + duplicateFile + " does not exist but it should have been created")
                 .isTrue();
         fileSystem.createFile(duplicateFile);
-        assertThat(fileExists(duplicateFile))
+        assertThat(checkFileExists(duplicateFile))
                 .withFailMessage("File " + duplicateFile + " does not exist but it should have been created")
                 .isTrue();
     }
@@ -76,14 +76,14 @@ public class FileSystemTest {
         SoftAssertions assertions = new SoftAssertions();
         fileSystem.createFile(fileWithContents);
         fileSystem.putContentToFile(fileWithContents, fileContents);
-        assertions.assertThat(fileExists(fileWithContents))
+        assertions.assertThat(checkFileExists(fileWithContents))
                 .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
                 .isTrue();
         assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
                 .withFailMessage("File contents is not equal to:\n" + fileContents)
                 .isTrue();
         fileSystem.createFile(fileWithContents);
-        assertions.assertThat(fileExists(fileWithContents))
+        assertions.assertThat(checkFileExists(fileWithContents))
                 .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
                 .isTrue();
         assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
@@ -96,7 +96,7 @@ public class FileSystemTest {
     public void fillNonExistentFileWithContents() {
         SoftAssertions assertions = new SoftAssertions();
         fileSystem.putContentToFile(nonexistentFile, fileContents);
-        assertions.assertThat(fileExists(nonexistentFile))
+        assertions.assertThat(checkFileExists(nonexistentFile))
                 .withFailMessage("File " + nonexistentFile + " does not exist but it should have been created")
                 .isTrue();
         assertions.assertThat(fileContentsIsEqualTo(nonexistentFile, fileContents))

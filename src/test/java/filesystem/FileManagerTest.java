@@ -3,7 +3,6 @@ package filesystem;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -32,11 +31,11 @@ public class FileManagerTest {
     @Test
     public void createNewFile() {
         createDirIfNotExists(createdFilesFolder);
-        assertThat(fileExists(newTestFile))
+        assertThat(checkFileExists(newTestFile))
                 .as("Test file should not yet be created")
                 .isFalse();
         fileManager.createFile(newTestFile);
-        assertThat(fileExists(newTestFile))
+        assertThat(checkFileExists(newTestFile))
                 .as("Test file is not created")
                 .isTrue();
     }
@@ -45,11 +44,11 @@ public class FileManagerTest {
     public void createDuplicateFile() {
         createDirIfNotExists(createdFilesFolder);
         fileManager.createFile(duplicateFile);
-        assertThat(fileExists(duplicateFile))
+        assertThat(checkFileExists(duplicateFile))
                 .withFailMessage("File " + duplicateFile + " does not exists but it should have been created")
                 .isTrue();
         fileManager.createFile(duplicateFile);
-        assertThat(fileExists(duplicateFile))
+        assertThat(checkFileExists(duplicateFile))
                 .withFailMessage("File " + duplicateFile + " does not exists but it should have been created")
                 .isTrue();
     }
@@ -65,15 +64,15 @@ public class FileManagerTest {
         Path fileDir = Path.of(deletedFiles + "/fileToDelete");
         createDirIfNotExists(deletedFiles);
         createFile(fileDir);
-        assertThat(fileExists(fileDir))
+        assertThat(checkFileExists(fileDir))
                 .withFailMessage("File " + fileDir + " does not exists but it should have been created")
                 .isTrue();
         fileManager.deleteFile(fileDir);
 
-        assertThat(directoryExists(Path.of(deletedFiles)))
+        assertThat(checkDirectoryExists(Path.of(deletedFiles)))
                 .withFailMessage("Seems like directory " + deletedFiles + " is deleted but it should not have been deleted")
                 .isTrue();
-        assertThat(fileExists(fileDir))
+        assertThat(checkFileExists(fileDir))
                 .withFailMessage("File " + fileDir + " still exists but it should have been deleted")
                 .isFalse();
     }

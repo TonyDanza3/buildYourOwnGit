@@ -10,7 +10,7 @@ import java.nio.file.StandardOpenOption;
 public class FileTestUtils {
 
     public static void createDirIfNotExists(String dir) {
-        if (!directoryExists(Paths.get(dir))) {
+        if (!checkDirectoryExists(Paths.get(dir))) {
             new File(dir).mkdir();
         }
     }
@@ -33,7 +33,7 @@ public class FileTestUtils {
         new File(filePath.toString()).delete();
     }
 
-    public static boolean directoryExists(Path directory) {
+    public static boolean checkDirectoryExists(Path directory) {
         File file = new File(directory.toString());
         if (file.isFile()) {
             throw new RuntimeException(directory + " is expected to be a directory but it is a file");
@@ -41,7 +41,7 @@ public class FileTestUtils {
         return file.exists();
     }
 
-    public static boolean fileExists(Path filePath) {
+    public static boolean checkFileExists(Path filePath) {
         File file = new File(filePath.toString());
         if (file.isDirectory()) {
             throw new RuntimeException(filePath + " is expected to be a file but it is a directory");

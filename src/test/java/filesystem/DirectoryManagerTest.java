@@ -1,16 +1,14 @@
 package filesystem;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-
+import utils.Assertion;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Formatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static utils.FileTestUtils.*;
 
 public class DirectoryManagerTest {
@@ -59,33 +57,23 @@ public class DirectoryManagerTest {
 
     @Test
     public void createDirectory() {
-        assertThat(directoryExists(createdDir))
-                .withFailMessage("Directory " + createdDir + " exists but it should not")
-                .isFalse();
+        Assertion.directoryNotExists(createdDir);
         directoryManager.createDirectory(createdDir);
-        assertThat(directoryExists(createdDir))
-                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, createdDir))
-                .isTrue();
+        Assertion.directoryExists(createdDir);
     }
 
     @Test
     public void removeDirectory() {
         directoryManager.createDirectory(removedDir);
-        assertThat(directoryExists(removedDir))
-                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))
-                .isTrue();
+        Assertion.directoryExists(removedDir);
         directoryManager.removeDirectory(removedDir);
-        assertThat(directoryExists(removedDir))
-                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, removedDir))
-                .isFalse();
+        Assertion.directoryNotExists(removedDir);
     }
 
     @Test
     public void createdDirectoryOnDeepNestingLevel() {
         directoryManager.createDirectory(deepNestingLevelDir);
-        assertThat(directoryExists(deepNestingLevelDir))
-                .withFailMessage("Directory " + deepNestingLevelDir + " does not exist but it should have been created")
-                .isTrue();
+        Assertion.directoryExists(deepNestingLevelDir);
     }
 
     @Test
@@ -99,68 +87,47 @@ public class DirectoryManagerTest {
         directoryManager.createDirectory(dirTwo);
         createFile(file);
         writeToFile(file, fileContents);
-        SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(directoryExists(dirOne))
-                .withFailMessage("Directory " + dirOne + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(directoryExists(dirTwo))
-                .withFailMessage("Directory " + dirTwo + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(fileExists(file))
-                .withFailMessage("File " + file + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(fileContentsIsEqualTo(file, fileContents))
+
+        Assertion.directoryExists(dirOne);
+        Assertion.directoryExists(dirTwo);
+        Assertion.fileExists(file);
+        assertThat(fileContentsIsEqualTo(file, fileContents))
                 .withFailMessage("File contents does not match to : \n" + fileContents)
                 .isTrue();
         directoryManager.removeDirectory(levelOneDir);
-        assertions.assertThat(directoryExists(dirOne))
-                .withFailMessage("Directory " + dirOne + " exists but it should have been deleted")
-                .isFalse();
-        assertions.assertThat(directoryExists(dirTwo))
-                .withFailMessage("Directory " + dirTwo + " exists but it should have been deleted")
-                .isFalse();
-        assertions.assertThat(directoryExists(levelOneDir))
-                .withFailMessage("Directory " + levelOneDir + "/levelOne exists but it should have been deleted")
-                .isFalse();
-        assertions.assertThat(fileExists(file))
-                .withFailMessage("File " + file + " exists but it should have been deleted")
-                .isFalse();
-        assertions.assertAll();
+        Assertion.directoryNotExists(dirOne);
+        Assertion.directoryNotExists(dirTwo);
+        Assertion.directoryNotExists(levelOneDir);
+        Assertion.fileNotExists(file);
     }
 
     @Test
     public void createdDuplicateDirectory() {
+        Assertion.directoryNotExists(duplicateDir);
         directoryManager.createDirectory(duplicateDir);
-        assertThat(directoryExists(duplicateDir))
-                .withFailMessage("Directory " + duplicateDir + " does not exist but it should have been created")
-                .isTrue();
+        Assertion.directoryExists(duplicateDir);
+        directoryManager.createDirectory(duplicateDir);
+        Assertion.directoryExists(duplicateDir);
     }
 
     @Test
-    public void idempotentCreateDuplicateDirectory() {
+    public void createIfNotExistDuplicateDirectory() {
+        Assertion.directoryNotExists(idempotentDuplicateDir);
         directoryManager.createDirectoryIfNotExists(idempotentDuplicateDir);
-        assertThat(directoryExists(idempotentDuplicateDir))
-                .withFailMessage("Directory " + idempotentDuplicateDir + " does not exist but it should have been created")
-                .isTrue();
+        Assertion.directoryExists(idempotentDuplicateDir);
         directoryManager.createDirectoryIfNotExists(idempotentDuplicateDir);
-        assertThat(directoryExists(idempotentDuplicateDir))
-                .withFailMessage("Directory " + idempotentDuplicateDir + " does not exist but it should have been created")
-                .isTrue();
+        Assertion.directoryExists(idempotentDuplicateDir);
     }
 
     @Test
     public void removeDirectoryRecursively() {
         directoryManager.createDirectory(recDir);
         childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));
-        assertThat(directoryExists(recDir))
-                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))
-                .isTrue();
-        assertThat(allExists(childRecDirs)).isTrue();
+        Assertion.directoryExists(recDir);
+        Assertion.directoryExists(childRecDirs);
         directoryManager.removeDirectory(recDir);
-        assertThat(directoryExists(recDir))
-                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, recDir))
-                .isFalse();
-        assertThat(allExists(childRecDirs)).isFalse();
+        Assertion.directoryNotExists(childRecDirs);
+        Assertion.directoryNotExists(recDir);
     }
 
     private String formatErrMessage(String message, Path dirName) {
