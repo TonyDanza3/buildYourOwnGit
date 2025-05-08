@@ -45,7 +45,13 @@ public class FileManagerTest {
     public void createDuplicateFile() {
         createDirIfNotExists(createdFilesFolder);
         fileManager.createFile(duplicateFile);
-        assertThrows(RuntimeException.class, () -> fileManager.createFile(duplicateFile));
+        assertThat(fileExists(duplicateFile))
+                .withFailMessage("File " + duplicateFile + " does not exists but it should have been created")
+                .isTrue();
+        fileManager.createFile(duplicateFile);
+        assertThat(fileExists(duplicateFile))
+                .withFailMessage("File " + duplicateFile + " does not exists but it should have been created")
+                .isTrue();
     }
 
     @Test
