@@ -16,11 +16,16 @@ public class FileSystem {
         createFile(file);
         fileEditor.replaceFileContents(file, content);
     }
-
+//TODO cover with tests
     public void deleteFile(Path path) {
-        fileManager.createFile(path);
+        fileManager.deleteFile(path);
     }
+
     public void deleteDirectory(Path path) {
         directoryManager.removeDirectory(path);
+    }
+
+    public boolean hasFileOrDirectory(Path path, String fileName) {
+        return directoryManager.containsFile(path, fileName);
     }
 }

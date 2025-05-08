@@ -13,7 +13,7 @@ public class CommandValidator {
         boolean valid = Arrays.stream(Commands.values())
                 .anyMatch(c -> c.getCommandName().equals(command));
         if(!valid) {
-            throw new RuntimeException(INVALID_COMMAND.formatted(command));
+            System.out.println(INVALID_COMMAND.formatted(command));
         }
     }
 }
