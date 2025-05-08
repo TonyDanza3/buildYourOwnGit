@@ -8,84 +8,59 @@ import utils.Assertion;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static utils.FileTestUtils.*;
+import static utils.TestData.*;
 
 public class FileEditorTest {
-
-    private static final String fileEditorDirectory = "src/test/resources/fileEditor";
-    private static final Path fileOne = Path.of(fileEditorDirectory + "/one");
-    private static final Path fileTwo = Path.of(fileEditorDirectory + "/two");
+    
     private final FileEditor fileEditor = new FileEditor();
-    private static final String mainMethodUnformatted = "public class Main {" +
-            "\npublic static void main(String[] args) {" +
-            "\n}" +
-            "\n}";
-    private static final String mainMethodFormatted = "public class Main {" +
-            "\n    public static void main(String[] args) {" +
-            "\n    }" +
-            "\n}";
-    private static final String additionalMethod = "    public void removeDirectoryRecursively() {\n" +
-            "        directoryManager.createDirectory(recDir);\n" +
-            "        childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));\n" +
-            "        assertThat(directoryExists(recDir))\n" +
-            "                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))\n" +
-            "                .isTrue();\n" +
-            "        assertThat(allExists(childRecDirs)).isTrue();\n" +
-            "        directoryManager.removeDirectory(recDir);\n" +
-            "        assertThat(directoryExists(recDir))\n" +
-            "                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, recDir))\n" +
-            "                .isFalse();\n" +
-            "        assertThat(allExists(childRecDirs)).isFalse();\n" +
-            "    }";
 
     @BeforeAll
     public static void prepareFiles() {
-        createDirIfNotExists(fileEditorDirectory);
-        createFile(fileOne);
-        createFile(fileTwo);
-        writeToFile(fileOne, mainMethodUnformatted);
+        createDirIfNotExists(FILE_EDITOR_DIRECTORY);
+        createFile(FILE_ONE);
+        createFile(FILE_TWO);
+        writeToFile(FILE_ONE, MAIN_METHOD_UNFORMATTED);
     }
 
     @AfterAll
     public static void clearDirs() {
-        recursivelyRemoveDirectory(Path.of(fileEditorDirectory));
+        recursivelyRemoveDirectory(Path.of(FILE_EDITOR_DIRECTORY));
     }
 
     @Test
     public void replaceLineInTheMiddle() {
-        fileEditor.replaceLine(fileOne, 2, "    public static void main(String[] args) {")
-                .replaceLine(fileOne, 3, "    }");
-        Assertion.fileContentsEqualTo(fileOne, mainMethodFormatted);
+        fileEditor.replaceLine(FILE_ONE, 2, "    public static void main(String[] args) {")
+                .replaceLine(FILE_ONE, 3, "    }");
+        Assertion.fileContentsEqualTo(FILE_ONE, MAIN_METHOD_FORMATTED);
     }
 
     @Test
     public void writeToEmptyFile() {
-        String expected = mainMethodFormatted + "\n\n" + additionalMethod;
-        fileEditor.replaceFileContents(fileTwo, expected);
-        Assertion.fileContentsEqualTo(fileTwo, expected);
+        String expected = MAIN_METHOD_FORMATTED + "\n\n" + ADDITIONAL_METHOD;
+        fileEditor.replaceFileContents(FILE_TWO, expected);
+        Assertion.fileContentsEqualTo(FILE_TWO, expected);
     }
 
     @Test
     public void appendToFile() {
-        String initialFileContents = fileToString(fileOne);
-        String expected = initialFileContents + mainMethodUnformatted;
-        fileEditor.appendToFile(fileOne, mainMethodUnformatted);
-        Assertion.fileContentsEqualTo(fileOne, expected);
+        String initialFileContents = fileToString(FILE_ONE);
+        String expected = initialFileContents + MAIN_METHOD_UNFORMATTED;
+        fileEditor.appendToFile(FILE_ONE, MAIN_METHOD_UNFORMATTED);
+        Assertion.fileContentsEqualTo(FILE_ONE, expected);
 
     }
 
     @Test
     public void editDirectory() {
-        assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(Path.of(fileEditorDirectory), 2, "new"));
+        assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(Path.of(FILE_EDITOR_DIRECTORY), 2, "new"));
     }
 
     @Test
     public void exceededLineNumber() {
-        assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(fileOne, 100500, "kobasica"));
+        assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(FILE_ONE, 100500, "kobasica"));
     }
 
     private String fileToString(Path path) {

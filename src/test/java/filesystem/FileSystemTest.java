@@ -6,38 +6,23 @@ import utils.Assertion;
 import java.nio.file.Path;
 
 import static utils.FileTestUtils.*;
+import static utils.TestData.*;
 
 public class FileSystemTest {
 
     private final FileSystem fileSystem = new FileSystem();
-    private static final String fileSystemRootDir = "src/test/resources/fileSystem";
-    private static final Path fileWithContents = Path.of(fileSystemRootDir + "/fileWithContents");
-    private static final Path nonexistentFile = Path.of(fileSystemRootDir + "/nonexistentFile");
-    private static final String fileContents = "    public void removeDirectoryRecursively() {\n" +
-            "        directoryManager.createDirectory(recDir);\n" +
-            "        childRecDirs.forEach(dir -> directoryManager.createDirectory(dir));\n" +
-            "        assertThat(directoryExists(recDir))\n" +
-            "                .withFailMessage(formatErrMessage(ERRshouldHaveBeenCreated, removedDir))\n" +
-            "                .isTrue();\n" +
-            "        assertThat(allExists(childRecDirs)).isTrue();\n" +
-            "        directoryManager.removeDirectory(recDir);\n" +
-            "        assertThat(directoryExists(recDir))\n" +
-            "                .withFailMessage(formatErrMessage(ERRshouldHaveBeenRemoved, recDir))\n" +
-            "                .isFalse();\n" +
-            "        assertThat(allExists(childRecDirs)).isFalse();\n" +
-            "    }";
 
     @AfterAll
     public static void cleanUp() {
-        recursivelyRemoveDirectory(Path.of(fileSystemRootDir));
+        recursivelyRemoveDirectory(Path.of(FILESYSTEM_ROOT_DIR));
     }
 
     @Test
     public void createFileInNonexistentDir() {
-        Path coreEngineFolder = Path.of(fileSystemRootDir + "/core");
-        Path utilsFolder = Path.of(fileSystemRootDir + "/utils");
-        Path coreEngineFile = Path.of(fileSystemRootDir + "/core/Engine.java");
-        Path utilsFile = Path.of(fileSystemRootDir + "/utils/Utils.java");
+        Path coreEngineFolder = Path.of(FILESYSTEM_ROOT_DIR + "/core");
+        Path utilsFolder = Path.of(FILESYSTEM_ROOT_DIR + "/utils");
+        Path coreEngineFile = Path.of(FILESYSTEM_ROOT_DIR + "/core/Engine.java");
+        Path utilsFile = Path.of(FILESYSTEM_ROOT_DIR + "/utils/Utils.java");
         fileSystem.createFile(coreEngineFile);
         fileSystem.createFile(utilsFile);
         Assertion.directoryExists(coreEngineFolder, utilsFolder);
@@ -46,7 +31,7 @@ public class FileSystemTest {
 
     @Test
     public void createDuplicateFile() {
-        Path duplicateFile = Path.of(fileSystemRootDir + "/duplicateFile");
+        Path duplicateFile = Path.of(FILESYSTEM_ROOT_DIR + "/duplicateFile");
         fileSystem.createFile(duplicateFile);
         Assertion.fileExists(duplicateFile);
         fileSystem.createFile(duplicateFile);
@@ -55,19 +40,19 @@ public class FileSystemTest {
 
     @Test
     public void duplicateDoesNotRewriteFileContents() {
-        fileSystem.createFile(fileWithContents);
-        fileSystem.putContentToFile(fileWithContents, fileContents);
-        Assertion.fileExists(fileWithContents);
-        Assertion.fileContentsEqualTo(fileWithContents, fileContents);
-        fileSystem.createFile(fileWithContents);
-        Assertion.fileExists(fileWithContents);
-        Assertion.fileContentsEqualTo(fileWithContents, fileContents);
+        fileSystem.createFile(FILE_WITH_CONTENTS);
+        fileSystem.putContentToFile(FILE_WITH_CONTENTS, FILE_CONTENTS);
+        Assertion.fileExists(FILE_WITH_CONTENTS);
+        Assertion.fileContentsEqualTo(FILE_WITH_CONTENTS, FILE_CONTENTS);
+        fileSystem.createFile(FILE_WITH_CONTENTS);
+        Assertion.fileExists(FILE_WITH_CONTENTS);
+        Assertion.fileContentsEqualTo(FILE_WITH_CONTENTS, FILE_CONTENTS);
     }
 
     @Test
     public void fillNonExistentFileWithContents() {
-        fileSystem.putContentToFile(nonexistentFile, fileContents);
-        Assertion.fileExists(nonexistentFile);
-        Assertion.fileContentsEqualTo(nonexistentFile, fileContents);
+        fileSystem.putContentToFile(NONEXISTENT_FILE, FILE_CONTENTS);
+        Assertion.fileExists(NONEXISTENT_FILE);
+        Assertion.fileContentsEqualTo(NONEXISTENT_FILE, FILE_CONTENTS);
     }
 }

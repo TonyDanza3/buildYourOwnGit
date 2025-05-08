@@ -7,65 +7,60 @@ import utils.Assertion;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static utils.FileTestUtils.*;
+import static utils.TestData.*;
 
 public class FileManagerTest {
-    private static final String resourcesDir = "src/test/resources";
-    private static final String createdFilesFolder = resourcesDir + "/createdFiles";
-    private static final Path newTestFile = Paths.get(createdFilesFolder + "/newTestFile");
-    private static final Path duplicateFile = Paths.get(createdFilesFolder + "/duplicateFile");
-    private static final String nonExistentDirectory = resourcesDir + "/createdFiles/nonExistentDirectory";
-    private static final String deletedFiles = resourcesDir + "/deletedFiles";
+
     private final FileManager fileManager = new FileManager();
 
     @AfterAll
     public static void removeDirs() {
-        recursivelyRemoveDirectory(Paths.get(createdFilesFolder));
-        recursivelyRemoveDirectory(newTestFile);
-        recursivelyRemoveDirectory(duplicateFile);
-        recursivelyRemoveDirectory(Paths.get(nonExistentDirectory));
-        recursivelyRemoveDirectory(Path.of(deletedFiles));
+        recursivelyRemoveDirectory(Paths.get(CREATED_FILES_FOLDER));
+        recursivelyRemoveDirectory(NEW_TEST_FILE);
+        recursivelyRemoveDirectory(DUPLICATE_FILE);
+        recursivelyRemoveDirectory(Paths.get(NON_EXISTENT_DIRECTORY));
+        recursivelyRemoveDirectory(Path.of(DELETED_FILES));
     }
 
     @Test
     public void createNewFile() {
-        createDirIfNotExists(createdFilesFolder);
-        Assertion.fileNotExists(newTestFile);
-        fileManager.createFile(newTestFile);
-        Assertion.fileExists(newTestFile);
+        createDirIfNotExists(CREATED_FILES_FOLDER);
+        Assertion.fileNotExists(NEW_TEST_FILE);
+        fileManager.createFile(NEW_TEST_FILE);
+        Assertion.fileExists(NEW_TEST_FILE);
     }
 
     @Test
-    public void createDuplicateFile() {
-        createDirIfNotExists(createdFilesFolder);
-        fileManager.createFile(duplicateFile);
-        Assertion.fileExists(duplicateFile);
-        fileManager.createFile(duplicateFile);
-        Assertion.fileExists(duplicateFile);
+    public void createDUPLICATE_FILE() {
+        createDirIfNotExists(CREATED_FILES_FOLDER);
+        fileManager.createFile(DUPLICATE_FILE);
+        Assertion.fileExists(DUPLICATE_FILE);
+        fileManager.createFile(DUPLICATE_FILE);
+        Assertion.fileExists(DUPLICATE_FILE);
     }
 
     @Test
-    public void createFileInNonExistentDirectory() {
-        Path fileDir = Paths.get(nonExistentDirectory + "/someFile");
+    public void createFileInNON_EXISTENT_DIRECTORY() {
+        Path fileDir = Paths.get(NON_EXISTENT_DIRECTORY + "/someFile");
         assertThrows(RuntimeException.class, () -> fileManager.createFile(fileDir));
     }
 
     @Test
     public void deleteFile() {
-        Path fileDir = Path.of(deletedFiles + "/fileToDelete");
-        createDirIfNotExists(deletedFiles);
+        Path fileDir = Path.of(DELETED_FILES + "/fileToDelete");
+        createDirIfNotExists(DELETED_FILES);
         createFile(fileDir);
         Assertion.fileExists(fileDir);
         fileManager.deleteFile(fileDir);
-        Assertion.directoryExists(Path.of(deletedFiles));
+        Assertion.directoryExists(Path.of(DELETED_FILES));
         Assertion.fileNotExists(fileDir);
     }
 
     @Test
     public void deleteNonExistentFile() {
-        Path nonExistentFile = Path.of(resourcesDir + "/nonExistentFile");
+        Path nonExistentFile = Path.of(RESOURCES_DIR + "/nonExistentFile");
         Assertion.fileNotExists(nonExistentFile);
         fileManager.deleteFile(nonExistentFile);
         Assertion.fileNotExists(nonExistentFile);
