@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 import static filesystem.FileUtils.directoryAsTokens;
@@ -44,5 +45,13 @@ public class DirectoryManager {
             Files.delete(path);
         } catch (IOException ignored) {
         }
+    }
+
+    public boolean containsFile(Path directory, String fileName) {
+        File[] files = new File(String.valueOf(directory)).listFiles();
+        if (files == null) {
+            return false;
+        }
+        return Arrays.stream(files).anyMatch(file -> file.getName().equals(fileName));
     }
 }

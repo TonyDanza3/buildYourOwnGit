@@ -31,6 +31,7 @@ public class DirectoryManagerTest {
         recursivelyRemoveDirectory(DUPLICATE_DIR);
         recursivelyRemoveDirectory(IDEMPOTENT_DUPLICATE_DIR);
         recursivelyRemoveDirectory(Path.of(RESOURCES_DIR + "/levelOne"));
+        recursivelyRemoveDirectory(CONTAINS_FILE_DIR);
     }
 
     @Test
@@ -106,5 +107,41 @@ public class DirectoryManagerTest {
         directoryManager.removeDirectory(DIR_WITH_CHILDS);
         Assertion.directoryNotExists(childRecDirs);
         Assertion.directoryNotExists(DIR_WITH_CHILDS);
+    }
+
+    @Test
+    public void containsFileFullMatch() {
+        directoryManager.createDirectoryIfNotExists(CONTAINS_FILE_DIR);
+        createFile(Path.of(CONTAINS_FILE_DIR + "/pom.xml"));
+        assertThat(directoryManager.containsFile(CONTAINS_FILE_DIR, "pom.xml"))
+                .withFailMessage("Directory" + CONTAINS_FILE_DIR + " should have contain file 'pom.xml'" )
+                .isTrue();
+    }
+
+    @Test
+    public void argumentAsSubstringOfFileName() {
+        directoryManager.createDirectoryIfNotExists(CONTAINS_FILE_DIR);
+        createFile(Path.of(CONTAINS_FILE_DIR + "/some.xml"));
+        assertThat(directoryManager.containsFile(CONTAINS_FILE_DIR, "some.xm"))
+                .withFailMessage("Directory" + CONTAINS_FILE_DIR + " should not have contain file 'some.xm'")
+                .isFalse();
+    }
+
+    @Test
+    public void fileNameAsSubstringOfArgument() {
+        directoryManager.createDirectoryIfNotExists(CONTAINS_FILE_DIR);
+        createFile(Path.of(CONTAINS_FILE_DIR + "/someOther.xml"));
+        assertThat(directoryManager.containsFile(CONTAINS_FILE_DIR, "someOther.xmls"))
+                .withFailMessage("Directory" + CONTAINS_FILE_DIR + " should not have contain file 'someOther.xmls'")
+                .isFalse();
+    }
+
+    @Test
+    public void sameExtension() {
+        directoryManager.createDirectoryIfNotExists(CONTAINS_FILE_DIR);
+        createFile(Path.of(CONTAINS_FILE_DIR + "/one.xls"));
+        assertThat(directoryManager.containsFile(CONTAINS_FILE_DIR, "ona.xls"))
+                .withFailMessage("Directory" + CONTAINS_FILE_DIR + " should not have contain file 'ona.xls'")
+                .isFalse();
     }
 }

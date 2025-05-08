@@ -19,6 +19,7 @@ public class TestData {
             "    }";
     public static final String FILESYSTEM_ROOT_DIR = "src/test/resources/fileSystem";
     public static final String RESOURCES_DIR = "src/test/resources";
+    public static final Path CONTAINS_FILE_DIR = Path.of(RESOURCES_DIR + "/containsFile");
     public static final Path FILE_WITH_CONTENTS = Path.of(FILESYSTEM_ROOT_DIR + "/fileWithContents");
     public static final Path NONEXISTENT_FILE = Path.of(FILESYSTEM_ROOT_DIR + "/nonexistentFile");
 
