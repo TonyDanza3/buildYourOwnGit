@@ -32,26 +32,18 @@ public class FileManagerTest {
     @Test
     public void createNewFile() {
         createDirIfNotExists(createdFilesFolder);
-        assertThat(checkFileExists(newTestFile))
-                .as("Test file should not yet be created")
-                .isFalse();
+        Assertion.fileNotExists(newTestFile);
         fileManager.createFile(newTestFile);
-        assertThat(checkFileExists(newTestFile))
-                .as("Test file is not created")
-                .isTrue();
+        Assertion.fileExists(newTestFile);
     }
 
     @Test
     public void createDuplicateFile() {
         createDirIfNotExists(createdFilesFolder);
         fileManager.createFile(duplicateFile);
-        assertThat(checkFileExists(duplicateFile))
-                .withFailMessage("File " + duplicateFile + " does not exists but it should have been created")
-                .isTrue();
+        Assertion.fileExists(duplicateFile);
         fileManager.createFile(duplicateFile);
-        assertThat(checkFileExists(duplicateFile))
-                .withFailMessage("File " + duplicateFile + " does not exists but it should have been created")
-                .isTrue();
+        Assertion.fileExists(duplicateFile);
     }
 
     @Test
@@ -65,17 +57,10 @@ public class FileManagerTest {
         Path fileDir = Path.of(deletedFiles + "/fileToDelete");
         createDirIfNotExists(deletedFiles);
         createFile(fileDir);
-        assertThat(checkFileExists(fileDir))
-                .withFailMessage("File " + fileDir + " does not exists but it should have been created")
-                .isTrue();
+        Assertion.fileExists(fileDir);
         fileManager.deleteFile(fileDir);
-
-        assertThat(checkDirectoryExists(Path.of(deletedFiles)))
-                .withFailMessage("Seems like directory " + deletedFiles + " is deleted but it should not have been deleted")
-                .isTrue();
-        assertThat(checkFileExists(fileDir))
-                .withFailMessage("File " + fileDir + " still exists but it should have been deleted")
-                .isFalse();
+        Assertion.directoryExists(Path.of(deletedFiles));
+        Assertion.fileNotExists(fileDir);
     }
 
     @Test

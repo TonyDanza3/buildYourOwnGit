@@ -33,8 +33,6 @@ public class DirectoryManagerTest {
     private static final Path duplicateDir = Path.of(resourcesDir + "/duplicate");
     private static final Path deepNestingLevelDir = Path.of(resourcesDir + "/levelOne/LevelTwo/LevelThree/LeverFour");
     private static final Path idempotentDuplicateDir = Path.of(resourcesDir + "/idempotentDuplicate");
-    private final String ERRshouldHaveBeenCreated = "Directory %s does not exist but it should have been created";
-    private final String ERRshouldHaveBeenRemoved = "Directory %s still exists but should have been removed";
     private List<Path> childRecDirs = List.of(
             Path.of(recDir + "/one"),
             Path.of(recDir + "/two"),
@@ -128,23 +126,5 @@ public class DirectoryManagerTest {
         directoryManager.removeDirectory(recDir);
         Assertion.directoryNotExists(childRecDirs);
         Assertion.directoryNotExists(recDir);
-    }
-
-    private String formatErrMessage(String message, Path dirName) {
-        Formatter formatter = new Formatter();
-        String result = formatter.format(message, dirName).toString();
-        formatter.close();
-        return result;
-    }
-
-    private boolean allExists(List<Path> dirs) {
-        boolean exists = true;
-        for (Path path : dirs) {
-            if (!Files.exists(path)) {
-                exists = false;
-                break;
-            }
-        }
-        return exists;
     }
 }
