@@ -1,12 +1,10 @@
 package filesystem;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-
+import utils.Assertion;
 import java.nio.file.Path;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static utils.FileTestUtils.*;
 
 public class FileSystemTest {
@@ -42,66 +40,34 @@ public class FileSystemTest {
         Path utilsFile = Path.of(fileSystemRootDir + "/utils/Utils.java");
         fileSystem.createFile(coreEngineFile);
         fileSystem.createFile(utilsFile);
-        SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(checkDirectoryExists(coreEngineFolder))
-                .withFailMessage("Directory " + coreEngineFolder + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(checkDirectoryExists(utilsFolder))
-                .withFailMessage("Directory " + utilsFolder + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(checkFileExists(coreEngineFile))
-                .withFailMessage("File " + coreEngineFile + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(checkFileExists(utilsFile))
-                .withFailMessage("File " + utilsFile + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertAll();
+        Assertion.directoryExists(coreEngineFolder, utilsFolder);
+        Assertion.fileExists(coreEngineFile, utilsFile);
     }
 
     @Test
     public void createDuplicateFile() {
         Path duplicateFile = Path.of(fileSystemRootDir + "/duplicateFile");
         fileSystem.createFile(duplicateFile);
-        assertThat(checkFileExists(duplicateFile))
-                .withFailMessage("File " + duplicateFile + " does not exist but it should have been created")
-                .isTrue();
+        Assertion.fileExists(duplicateFile);
         fileSystem.createFile(duplicateFile);
-        assertThat(checkFileExists(duplicateFile))
-                .withFailMessage("File " + duplicateFile + " does not exist but it should have been created")
-                .isTrue();
+        Assertion.fileExists(duplicateFile);
     }
 
     @Test
     public void duplicateDoesNotRewriteFileContents() {
-        SoftAssertions assertions = new SoftAssertions();
         fileSystem.createFile(fileWithContents);
         fileSystem.putContentToFile(fileWithContents, fileContents);
-        assertions.assertThat(checkFileExists(fileWithContents))
-                .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
-                .withFailMessage("File contents is not equal to:\n" + fileContents)
-                .isTrue();
+        Assertion.fileExists(fileWithContents);
+        Assertion.fileContentsEqualTo(fileWithContents, fileContents);
         fileSystem.createFile(fileWithContents);
-        assertions.assertThat(checkFileExists(fileWithContents))
-                .withFailMessage("File " + fileWithContents + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(fileContentsIsEqualTo(fileWithContents, fileContents))
-                .withFailMessage("File contents is not equal to:\n" + fileContents)
-                .isTrue();
-        assertions.assertAll();
+        Assertion.fileExists(fileWithContents);
+        Assertion.fileContentsEqualTo(fileWithContents, fileContents);
     }
 
     @Test
     public void fillNonExistentFileWithContents() {
-        SoftAssertions assertions = new SoftAssertions();
         fileSystem.putContentToFile(nonexistentFile, fileContents);
-        assertions.assertThat(checkFileExists(nonexistentFile))
-                .withFailMessage("File " + nonexistentFile + " does not exist but it should have been created")
-                .isTrue();
-        assertions.assertThat(fileContentsIsEqualTo(nonexistentFile, fileContents))
-                .withFailMessage("File contents is not equal to:\n" + fileContents)
-                .isTrue();
-        assertions.assertAll();
+        Assertion.fileExists(nonexistentFile);
+        Assertion.fileContentsEqualTo(nonexistentFile, fileContents);
     }
 }
