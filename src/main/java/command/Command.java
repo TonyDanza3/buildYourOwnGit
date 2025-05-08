@@ -14,6 +14,6 @@ public abstract class Command {
         return commandName;
     }
 
-    abstract void execute();
-    abstract void validateArgs();
+    protected abstract void execute();
+    protected abstract void validateArgs();
 }
