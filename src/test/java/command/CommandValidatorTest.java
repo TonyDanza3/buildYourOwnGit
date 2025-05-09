@@ -26,8 +26,11 @@ public class CommandValidatorTest {
         List<String> outputs = new ArrayList<>();
         CommandValidator commandValidator = new CommandValidator(outputs::add);
         commandValidator.validate("initg");
-        assertThat(outputs.get(0).equals("git: 'initg' is not a git command. See 'git --help'."))
+        assertThat(outputs.isEmpty())
                 .withFailMessage("'initg' command should have trigger error, but it did not")
+                .isFalse();
+        assertThat(outputs.get(0).equals("git: 'initg' is not a git command. See 'git --help'."))
+                .withFailMessage("'initg' command should have trigger an error message equals to: \n'git: 'initg' is not a git command. See 'git --help'.' \n\n but actual error is:\n '" + outputs.get(0) + "'")
                 .isTrue();
     }
 }
