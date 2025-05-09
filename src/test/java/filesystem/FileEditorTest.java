@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static utils.FileTestUtils.*;
+import static utils.FileSystemTestUtils.*;
 import static utils.TestData.*;
 
 public class FileEditorTest {

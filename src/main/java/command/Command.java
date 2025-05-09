@@ -1,13 +1,16 @@
 package command;
 
 import command.commands.Commands;
+import filesystem.FileSystem;
 
 public abstract class Command {
 
-    String commandName;
+    protected String commandName;
+    protected FileSystem fileSystem;
 
     public Command(Commands commandName) {
         this.commandName = commandName.getCommandName();
+        fileSystem = new FileSystem();
     }
 
     public String getCommandName() {

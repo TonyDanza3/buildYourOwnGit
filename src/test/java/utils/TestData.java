@@ -58,4 +58,5 @@ public class TestData {
     public static final Path DUPLICATE_FILE = Paths.get(CREATED_FILES_FOLDER + "/duplicateFile");
     public static final String NON_EXISTENT_DIRECTORY = RESOURCES_DIR + "/createdFiles/nonExistentDirectory";
     public static final String DELETED_FILES = RESOURCES_DIR + "/deletedFiles";
+    public static final String INIT_COMMAND_DIRECTORY = RESOURCES_DIR + "/initCommand";
 }

@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-public class FileTestUtils {
+public class FileSystemTestUtils {
 
     public static void createDirIfNotExists(String dir) {
         if (!checkDirectoryExists(Paths.get(dir))) {

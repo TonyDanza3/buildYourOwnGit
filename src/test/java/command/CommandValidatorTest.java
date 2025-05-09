@@ -3,20 +3,31 @@ package command;
 import command.validator.CommandValidator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CommandValidatorTest {
 
-    CommandValidator commandValidator = new CommandValidator();
-
     @Test
     public void validCommand() {
-        assertDoesNotThrow(() -> commandValidator.validate("init"));
+        List<String> outputs = new ArrayList<>();
+        CommandValidator commandValidator = new CommandValidator(outputs::add);
+        commandValidator.validate("init");
+        assertThat(outputs.isEmpty())
+                .withFailMessage("'init' command should not have triggered error, but it did")
+                .isTrue();
     }
 
     @Test
     public void invalidCommand() {
-        assertThrows(RuntimeException.class, () -> commandValidator.validate("initg"));
+        List<String> outputs = new ArrayList<>();
+        CommandValidator commandValidator = new CommandValidator(outputs::add);
+        commandValidator.validate("initg");
+        assertThat(outputs.get(0).equals("git: 'initg' is not a git command. See 'git --help'."))
+                .withFailMessage("'initg' command should have trigger error, but it did not")
+                .isTrue();
     }
 }

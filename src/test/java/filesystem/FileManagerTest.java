@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static utils.FileTestUtils.*;
+import static utils.FileSystemTestUtils.*;
 import static utils.TestData.*;
 
 public class FileManagerTest {

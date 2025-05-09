@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import utils.Assertion;
 import java.nio.file.Path;
 
-import static utils.FileTestUtils.*;
+import static utils.FileSystemTestUtils.*;
 import static utils.TestData.*;
 
 public class FileSystemTest {
