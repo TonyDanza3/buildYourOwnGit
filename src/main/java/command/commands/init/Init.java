@@ -7,23 +7,25 @@ import java.nio.file.Path;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static constant.InfoMessage.REPO_INITIALIZED;
+
 public class Init extends Command {
 
-    Supplier<Path> currentDirectory;
-
-    public Init(Supplier<Path> currentDirectory) {
-        super(Commands.INIT);
-        this.currentDirectory = currentDirectory;
+    public Init(Supplier<Path> getCurrentDirectory, Consumer<String> routeCommandOutput) {
+        super(Commands.INIT,getCurrentDirectory, routeCommandOutput);
     }
 
+    //TODO: implement
     @Override
-    public void execute() {}
+    public void executeCommand() {
+        initializeRepo();
+    }
 
     @Override
     public void validateArgs() {}
 
-    private boolean hasGitFolder() {
-        return fileSystem.hasFileOrDirectory(currentDirectory.get(), ".git");
-        //Path.of(System.getProperty("user.dir"));
+    private void reinitializeRepo() {}
+    private void initializeRepo() {
+        routeCommandOutput.accept(REPO_INITIALIZED.formatted(getCurrentDirectory.get()));
     }
 }
