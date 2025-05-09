@@ -2,14 +2,14 @@ package filesystem;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import utils.Assertion;
+import filesystem.utils.Assertion;
 
 import java.nio.file.Path;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static utils.FileSystemTestUtils.*;
-import static utils.TestData.*;
+import static filesystem.utils.FileSystemTestUtils.*;
+import static filesystem.utils.TestData.*;
 
 public class DirectoryManagerTest {
     

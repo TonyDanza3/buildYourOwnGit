@@ -3,15 +3,15 @@ package filesystem;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import utils.Assertion;
+import filesystem.utils.Assertion;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static utils.FileSystemTestUtils.*;
-import static utils.TestData.*;
+import static filesystem.utils.FileSystemTestUtils.*;
+import static filesystem.utils.TestData.*;
 
 public class FileEditorTest {
     

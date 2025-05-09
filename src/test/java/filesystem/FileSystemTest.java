@@ -2,11 +2,11 @@ package filesystem;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import utils.Assertion;
+import filesystem.utils.Assertion;
 import java.nio.file.Path;
 
-import static utils.FileSystemTestUtils.*;
-import static utils.TestData.*;
+import static filesystem.utils.FileSystemTestUtils.*;
+import static filesystem.utils.TestData.*;
 
 public class FileSystemTest {
 
@@ -20,9 +20,9 @@ public class FileSystemTest {
     @Test
     public void createFileInNonexistentDir() {
         Path coreEngineFolder = Path.of(FILESYSTEM_ROOT_DIR + "/core");
-        Path utilsFolder = Path.of(FILESYSTEM_ROOT_DIR + "/utils");
+        Path utilsFolder = Path.of(FILESYSTEM_ROOT_DIR + "/filesystem/utils");
         Path coreEngineFile = Path.of(FILESYSTEM_ROOT_DIR + "/core/Engine.java");
-        Path utilsFile = Path.of(FILESYSTEM_ROOT_DIR + "/utils/Utils.java");
+        Path utilsFile = Path.of(FILESYSTEM_ROOT_DIR + "/filesystem/utils/Utils.java");
         fileSystem.createFile(coreEngineFile);
         fileSystem.createFile(utilsFile);
         Assertion.directoryExists(coreEngineFolder, utilsFolder);
