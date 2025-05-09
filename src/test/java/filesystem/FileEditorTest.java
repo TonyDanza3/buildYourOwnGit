@@ -27,7 +27,7 @@ public class FileEditorTest {
 
     @AfterAll
     public static void clearDirs() {
-        recursivelyRemoveDirectory(Path.of(FILE_EDITOR_DIRECTORY));
+        recursivelyRemoveDirectory(FILE_EDITOR_DIRECTORY);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class FileEditorTest {
 
     @Test
     public void editDirectory() {
-        assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(Path.of(FILE_EDITOR_DIRECTORY), 2, "new"));
+        assertThrows(RuntimeException.class, () -> fileEditor.replaceLine(FILE_EDITOR_DIRECTORY, 2, "new"));
     }
 
     @Test

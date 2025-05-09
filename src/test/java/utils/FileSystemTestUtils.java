@@ -9,9 +9,9 @@ import java.nio.file.StandardOpenOption;
 
 public class FileSystemTestUtils {
 
-    public static void createDirIfNotExists(String dir) {
-        if (!checkDirectoryExists(Paths.get(dir))) {
-            new File(dir).mkdir();
+    public static void createDirIfNotExists(Path dir) {
+        if (!checkDirectoryExists(dir)) {
+            new File(String.valueOf(dir)).mkdir();
         }
     }
 

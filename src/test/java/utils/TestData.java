@@ -42,7 +42,7 @@ public class TestData {
             "                .isFalse();\n" +
             "        assertThat(allExists(childRecDirs)).isFalse();\n" +
             "    }";
-    public static final String FILE_EDITOR_DIRECTORY = "src/test/resources/fileEditor";
+    public static final Path FILE_EDITOR_DIRECTORY = Path.of("src/test/resources/fileEditor");
     public static final Path FILE_ONE = Path.of(FILE_EDITOR_DIRECTORY + "/one");
     public static final Path FILE_TWO = Path.of(FILE_EDITOR_DIRECTORY + "/two");
     public static final String MAIN_METHOD_UNFORMATTED = "public class Main {" +
@@ -53,10 +53,10 @@ public class TestData {
             "\n    public static void main(String[] args) {" +
             "\n    }" +
             "\n}";
-    public static final String CREATED_FILES_FOLDER = RESOURCES_DIR + "/createdFiles";
+    public static final Path CREATED_FILES_FOLDER = Path.of(RESOURCES_DIR + "/createdFiles");
     public static final Path NEW_TEST_FILE = Paths.get(CREATED_FILES_FOLDER + "/newTestFile");
     public static final Path DUPLICATE_FILE = Paths.get(CREATED_FILES_FOLDER + "/duplicateFile");
     public static final String NON_EXISTENT_DIRECTORY = RESOURCES_DIR + "/createdFiles/nonExistentDirectory";
-    public static final String DELETED_FILES = RESOURCES_DIR + "/deletedFiles";
-    public static final String INIT_COMMAND_DIRECTORY = RESOURCES_DIR + "/initCommand";
+    public static final Path DELETED_FILES = Path.of(RESOURCES_DIR + "/deletedFiles");
+    public static final Path INIT_COMMAND_DIRECTORY = Path.of(RESOURCES_DIR + "/initCommand");
 }

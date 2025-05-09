@@ -57,7 +57,7 @@ public class DirectoryManagerTest {
 
     @Test
     public void removeDirectoryOnDeepNestingLevel() {
-        createDirIfNotExists(String.valueOf(DEEP_NESTING_LEVEL_DIR));
+        createDirIfNotExists(DEEP_NESTING_LEVEL_DIR);
         Path levelOneDir = Path.of(RESOURCES_DIR + "/levelOne");
         Path dirOne = Path.of(RESOURCES_DIR + "/levelOne/OtherDir");
         Path dirTwo = Path.of(RESOURCES_DIR + "/levelOne/OtherDir2");

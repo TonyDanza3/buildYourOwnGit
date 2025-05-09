@@ -17,11 +17,11 @@ public class FileManagerTest {
 
     @AfterAll
     public static void removeDirs() {
-        recursivelyRemoveDirectory(Paths.get(CREATED_FILES_FOLDER));
+        recursivelyRemoveDirectory(CREATED_FILES_FOLDER);
         recursivelyRemoveDirectory(NEW_TEST_FILE);
         recursivelyRemoveDirectory(DUPLICATE_FILE);
         recursivelyRemoveDirectory(Paths.get(NON_EXISTENT_DIRECTORY));
-        recursivelyRemoveDirectory(Path.of(DELETED_FILES));
+        recursivelyRemoveDirectory(DELETED_FILES);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class FileManagerTest {
         createFile(fileDir);
         Assertion.fileExists(fileDir);
         fileManager.deleteFile(fileDir);
-        Assertion.directoryExists(Path.of(DELETED_FILES));
+        Assertion.directoryExists(DELETED_FILES);
         Assertion.fileNotExists(fileDir);
     }
 
