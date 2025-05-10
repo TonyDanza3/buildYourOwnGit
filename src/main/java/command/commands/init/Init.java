@@ -4,6 +4,7 @@ import command.Command;
 import command.commands.Commands;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -15,7 +16,6 @@ public class Init extends Command {
         super(Commands.INIT,getCurrentDirectory, routeCommandOutput);
     }
 
-    //TODO: implement
     @Override
     public void executeCommand() {
         initializeRepo();
@@ -25,7 +25,10 @@ public class Init extends Command {
     public void validateArgs() {}
 
     private void reinitializeRepo() {}
+
     private void initializeRepo() {
+        //TODO : include reinitialize logic
+        Arrays.stream(Folders.values()).forEach(dir -> fileSystem.createFileInGitSubdirectory(Path.of(currentDirectory + "/" + dir.getFolderName())));
         routeCommandOutput.accept(REPO_INITIALIZED.formatted(getCurrentDirectory.get()));
     }
 }

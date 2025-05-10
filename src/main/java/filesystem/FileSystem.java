@@ -12,7 +12,7 @@ public class FileSystem {
         fileManager.createFile(path);
     }
 
-    //TODO: cover with tests
+//TODO: cover with tests
     public void createFileInGitSubdirectory(Path path) {
         Path gitSubdirectory = Path.of(FileUtils.getDirectoryFromPath(path) + "/.git");
         Path fileName = FileUtils.getFileNameFromPath(path);
