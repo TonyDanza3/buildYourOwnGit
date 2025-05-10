@@ -12,11 +12,22 @@ public class FileSystem {
         fileManager.createFile(path);
     }
 
+    //TODO: cover with tests
+    public void createFileInGitSubdirectory(Path path) {
+        Path gitSubdirectory = Path.of(FileUtils.getDirectoryFromPath(path) + "/.git");
+        Path fileName = FileUtils.getFileNameFromPath(path);
+        fileManager.createFile(Path.of(gitSubdirectory + "/" + fileName));
+    }
+
     public void putContentToFile(Path file, String content) {
         createFile(file);
         fileEditor.replaceFileContents(file, content);
     }
+
 //TODO cover with tests
+    public void createDirectory(Path path) {
+        directoryManager.createDirectory(path);
+    }
     public void deleteFile(Path path) {
         fileManager.deleteFile(path);
     }
