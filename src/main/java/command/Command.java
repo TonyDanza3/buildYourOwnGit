@@ -1,6 +1,7 @@
 package command;
 
 import command.commands.Commands;
+import filesystem.DirectoryManager;
 import filesystem.FileSystem;
 
 import java.nio.file.Path;
@@ -15,23 +16,16 @@ public abstract class Command {
     protected String commandName;
     protected FileSystem fileSystem;
     protected Consumer<String> routeCommandOutput;
-    protected Supplier<Path> getCurrentDirectory;
 
-    protected final Path currentDirectory;
-
-    public Command(Commands commandName, Supplier<Path> getCurrentDirectory, Consumer<String> routeCommandOutput) {
+    public Command(Commands commandName, Supplier<Path> defineCurrentDirectory, Consumer<String> routeCommandOutput) {
         this.commandName = commandName.getCommandName();
         this.routeCommandOutput = routeCommandOutput;
-        this.getCurrentDirectory = getCurrentDirectory;
-        currentDirectory = getCurrentDirectory.get();
-        fileSystem = new FileSystem();
+        fileSystem = new FileSystem(defineCurrentDirectory);
     }
 
     public Command(Commands commandName) {
         this.commandName = commandName.getCommandName();
         this.routeCommandOutput = System.out::println;
-        this.getCurrentDirectory = () -> Path.of(System.getProperty("user.dir"));
-        currentDirectory = getCurrentDirectory.get();
         fileSystem = new FileSystem();
     }
 
@@ -55,14 +49,10 @@ public abstract class Command {
     }
 
     public final boolean isGitRepo() {
-        return fileSystem.hasFileOrDirectory(getCurrentDirectory.get(), GIT_FOLDER);
+        return fileSystem.hasFileOrDirectory(fileSystem.currentDirectory, GIT_FOLDER);
     }
 
     public String getCommandName() {
         return commandName;
-    }
-
-    public Path getCurrentDirectory() {
-        return currentDirectory;
     }
 }
