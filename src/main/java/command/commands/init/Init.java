@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static constant.InfoMessage.REPO_INITIALIZED;
+import static constant.Names.GIT_FOLDER;
 
 public class Init extends Command {
 
@@ -32,7 +33,7 @@ public class Init extends Command {
 
     private void initializeRepo() {
         //TODO : include reinitialize logic with isGitRepo() method
-        fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/.git"));
+        fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + GIT_FOLDER));
         Arrays.stream(Folders.values()).forEach(dir -> fileSystem.createDirectoryInGitSubdirectory(dir.getFolderName()));
         routeCommandOutput.accept(REPO_INITIALIZED.formatted(fileSystem.currentDirectory));
     }

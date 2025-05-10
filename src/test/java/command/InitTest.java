@@ -11,34 +11,35 @@ import java.util.List;
 
 import static command.utils.ErrorTemplates.WRONG_INIT_INFO_MESSAGE;
 import static constant.InfoMessage.REPO_INITIALIZED;
+import static filesystem.utils.FileSystemTestUtils.recursivelyRemoveDirectory;
 import static org.assertj.core.api.Assertions.assertThat;
 import static filesystem.utils.FileSystemTestUtils.createDirIfNotExists;
-import static filesystem.utils.FileSystemTestUtils.recursivelyRemoveDirectory;
 import static filesystem.utils.TestData.INIT_COMMAND_DIRECTORY;
 
 public class InitTest {
 
-//    @AfterEach
-//    public void cleanInitDir() {
-//        recursivelyRemoveDirectory(INIT_COMMAND_DIRECTORY);
-//        createDirIfNotExists(INIT_COMMAND_DIRECTORY);
-//    }
+    @AfterEach
+    public void cleanInitDir() {
+        recursivelyRemoveDirectory(INIT_COMMAND_DIRECTORY);
+        createDirIfNotExists(INIT_COMMAND_DIRECTORY);
+    }
 
     @BeforeAll
     public static void createInitDir() {
         createDirIfNotExists(INIT_COMMAND_DIRECTORY);
     }
 
-//    @AfterAll
-//    public static void removeInitDir() {
-//        recursivelyRemoveDirectory(INIT_COMMAND_DIRECTORY);
-//    }
+    @AfterAll
+    public static void removeInitDir() {
+        recursivelyRemoveDirectory(INIT_COMMAND_DIRECTORY);
+    }
 
     @Test
     public void initInNonRepoFolder() {
         List<String> outputs = new ArrayList<>();
         Init init = new Init(() -> INIT_COMMAND_DIRECTORY, outputs::add);
         init.execute();
+        //TODO finish this test
     }
 
     @Test
