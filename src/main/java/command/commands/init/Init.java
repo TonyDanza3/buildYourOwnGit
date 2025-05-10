@@ -16,6 +16,10 @@ public class Init extends Command {
         super(Commands.INIT,getCurrentDirectory, routeCommandOutput);
     }
 
+    public Init() {
+        super(Commands.INIT);
+    }
+
     @Override
     public void executeCommand() {
         initializeRepo();
@@ -27,8 +31,9 @@ public class Init extends Command {
     private void reinitializeRepo() {}
 
     private void initializeRepo() {
-        //TODO : include reinitialize logic
-        Arrays.stream(Folders.values()).forEach(dir -> fileSystem.createFileInGitSubdirectory(Path.of(currentDirectory + "/" + dir.getFolderName())));
-        routeCommandOutput.accept(REPO_INITIALIZED.formatted(getCurrentDirectory.get()));
+        //TODO : include reinitialize logic with isGitRepo() method
+        fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/.git"));
+        Arrays.stream(Folders.values()).forEach(dir -> fileSystem.createDirectoryInGitSubdirectory(dir.getFolderName()));
+        routeCommandOutput.accept(REPO_INITIALIZED.formatted(fileSystem.currentDirectory));
     }
 }
