@@ -1,12 +1,6 @@
 package command.commands.init;
 
 public enum Folders {
-    // TODO: not a folder
-    HEAD("HEAD"),
-    // TODO: not a folder
-    CONFIG("config"),
-    // TODO: not a folder
-    DESCRIPTION("description"),
     HOOKS("hooks"),
     INFO("info"),
     OBJECTS("objects"),

@@ -34,7 +34,8 @@ public class Init extends Command {
     private void initializeRepo() {
         //TODO : include reinitialize logic with isGitRepo() method
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + GIT_FOLDER));
-        Arrays.stream(Folders.values()).forEach(dir -> fileSystem.createDirectoryInGitSubdirectory(dir.getFolderName()));
+        Arrays.stream(Folders.values()).forEach(folder -> fileSystem.createDirectoryInGitSubdirectory(folder.getFolderName()));
+        Arrays.stream(Files.values()).forEach(file -> fileSystem.createFileInGitSubdirectory(file.getFolderName()));
         routeCommandOutput.accept(REPO_INITIALIZED.formatted(fileSystem.currentDirectory));
     }
 }
