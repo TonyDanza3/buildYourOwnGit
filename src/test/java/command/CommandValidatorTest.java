@@ -29,8 +29,8 @@ public class CommandValidatorTest {
         assertThat(outputs.isEmpty())
                 .withFailMessage("'initg' command should have trigger error, but it did not")
                 .isFalse();
-        assertThat(outputs.get(0).equals("git: 'initg' is not a git command. See 'git --help'."))
-                .withFailMessage("'initg' command should have trigger an error message equals to: \n'git: 'initg' is not a git command. See 'git --help'.' \n\n but actual error is:\n '" + outputs.get(0) + "'")
+        assertThat(outputs.get(0).equals("gi: 'initg' is not a gi command. See 'gi --help'."))
+                .withFailMessage("'initg' command should have trigger an error message equals to: \n'gi: 'initg' is not a gi command. See 'gi --help'.' \n\n but actual error is:\n '" + outputs.get(0) + "'")
                 .isTrue();
     }
 }
