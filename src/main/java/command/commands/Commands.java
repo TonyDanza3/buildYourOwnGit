@@ -16,4 +16,13 @@ public enum Commands {
     public String getCommandName() {
         return commandName;
     }
+
+    public static Commands getByCommandName(String commandName) {
+        for(Commands command : Commands.values()) {
+            if(commandName.equals(command.getCommandName())){
+                return command;
+            }
+        }
+        throw new IllegalArgumentException("There is no command with name " + commandName);
+    }
 }

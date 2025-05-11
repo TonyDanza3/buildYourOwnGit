@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         CommandValidator commandValidator = new CommandValidator();
         if (commandValidator.validate(args[0])) {
-            Command command = CommandFactory.createCommand(Commands.valueOf(args[0]));
+            Command command = CommandFactory.createCommand(Commands.getByCommandName(args[0]));
             command.execute();
         }
     }
