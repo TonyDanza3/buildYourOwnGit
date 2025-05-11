@@ -47,7 +47,7 @@ public abstract class Command {
             executeCommand();
         }
     }
-
+    //TODO: move to fileSystem class or another class
     public final boolean isGitRepo() {
         return fileSystem.hasFileOrDirectory(fileSystem.currentDirectory, GIT_FOLDER);
     }
