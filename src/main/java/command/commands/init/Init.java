@@ -8,8 +8,9 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static constant.FileTemplates.*;
 import static constant.InfoMessage.REPO_INITIALIZED;
-import static constant.Names.GIT_FOLDER;
+import static constant.Names.*;
 
 public class Init extends Command {
 
@@ -36,6 +37,9 @@ public class Init extends Command {
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + GIT_FOLDER));
         Arrays.stream(Folders.values()).forEach(folder -> fileSystem.createDirectoryInGitSubdirectory(folder.getFolderName()));
         Arrays.stream(Files.values()).forEach(file -> fileSystem.createFileInGitSubdirectory(file.getFolderName()));
+        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + HEAD_FILE), HEAD);
+        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + CONFIG_FILE), CONFIG);
+        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + DESCRIPTION_FILE), DESCRIPTION);
         routeCommandOutput.accept(REPO_INITIALIZED.formatted(fileSystem.currentDirectory));
     }
 }
