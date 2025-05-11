@@ -2,20 +2,15 @@ import command.Command;
 import command.CommandFactory;
 import command.commands.Commands;
 import command.validator.CommandValidator;
-import filesystem.FileUtils;
-
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) {
         CommandValidator commandValidator = new CommandValidator();
-        if (commandValidator.validate(args[0])) {
+        if (commandValidator.isValid(args[0])) {
             Command command = CommandFactory.createCommand(Commands.getByCommandName(args[0]));
             command.execute();
         }
     }
+// TODO: is it a good idea to add generateOutput() method to Command class?
 }
