@@ -2,7 +2,6 @@ package command.validator;
 
 import command.commands.Commands;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
@@ -20,7 +19,7 @@ public class CommandValidator {
         this.output = System.out::println;
     }
 
-    public boolean validate(String command) {
+    public boolean isValid(String command) {
         boolean valid = Arrays.stream(Commands.values())
                 .anyMatch(c -> c.getCommandName().equals(command));
         if (!valid) {

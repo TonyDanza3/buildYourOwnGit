@@ -15,7 +15,7 @@ public class CommandValidatorTest {
     public void validCommand() {
         List<String> outputs = new ArrayList<>();
         CommandValidator commandValidator = new CommandValidator(outputs::add);
-        commandValidator.validate("init");
+        commandValidator.isValid("init");
         assertThat(outputs.isEmpty())
                 .withFailMessage("'init' command should not have triggered error, but it did")
                 .isTrue();
@@ -25,7 +25,7 @@ public class CommandValidatorTest {
     public void invalidCommand() {
         List<String> outputs = new ArrayList<>();
         CommandValidator commandValidator = new CommandValidator(outputs::add);
-        commandValidator.validate("initg");
+        commandValidator.isValid("initg");
         assertThat(outputs.isEmpty())
                 .withFailMessage("'initg' command should have trigger error, but it did not")
                 .isFalse();
