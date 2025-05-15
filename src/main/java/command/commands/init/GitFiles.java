@@ -1,13 +1,13 @@
 package command.commands.init;
 
-public enum Files {
+public enum GitFiles {
     HEAD("HEAD"),
     CONFIG("config"),
     DESCRIPTION("description");
 
     private final String fileName;
 
-    Files(String fileName) {
+    GitFiles(String fileName) {
         this.fileName = fileName;
     }
 

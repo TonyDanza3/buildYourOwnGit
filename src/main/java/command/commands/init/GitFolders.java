@@ -1,6 +1,6 @@
 package command.commands.init;
 
-public enum Folders {
+public enum GitFolders {
     HOOKS("hooks"),
     INFO("info"),
     OBJECTS("objects"),
@@ -12,7 +12,7 @@ public enum Folders {
 
     private final String folderName;
 
-    Folders(String folderName) {
+    GitFolders(String folderName) {
         this.folderName = folderName;
     }
 

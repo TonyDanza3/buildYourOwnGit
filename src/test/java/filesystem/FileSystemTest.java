@@ -1,13 +1,14 @@
 package filesystem;
 
+
+import filesystem.utils.Assertion;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import filesystem.utils.Assertion;
 import java.nio.file.Path;
 
 import static filesystem.utils.FileSystemTestUtils.*;
 import static filesystem.utils.TestData.*;
-
+import static filesystem.utils.Assertion.*;
 public class FileSystemTest {
 
     private final FileSystem fileSystem = new FileSystem();
@@ -54,5 +55,16 @@ public class FileSystemTest {
         fileSystem.putContentToFile(NONEXISTENT_FILE, FILE_CONTENTS);
         Assertion.fileExists(NONEXISTENT_FILE);
         Assertion.fileContentsEqualTo(NONEXISTENT_FILE, FILE_CONTENTS);
+    }
+
+    @Test
+    public void createAndFillFileInGitDirectory() {
+        Path gitDirectory = Path.of(FILESYSTEM_ROOT_DIR + "/.git");
+        Path fileInGitDirectory = Path.of(gitDirectory + "/HEAD");
+        String fileContent = "ref: refs/heads/main%";
+        fileSystem.createDirectory(gitDirectory);
+        fileSystem.putContentToFile(fileInGitDirectory, fileContent);
+        Assertion.fileExists(fileInGitDirectory);
+        Assertion.fileContentsEqualTo(fileInGitDirectory, fileContent);
     }
 }

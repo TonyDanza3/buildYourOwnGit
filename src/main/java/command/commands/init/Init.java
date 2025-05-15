@@ -3,6 +3,8 @@ package command.commands.init;
 import command.Command;
 import command.commands.Commands;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -35,8 +37,8 @@ public class Init extends Command {
     private void initializeRepo() {
         //TODO : include reinitialize logic with isGitRepo() method
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + GIT_FOLDER));
-        Arrays.stream(Folders.values()).forEach(folder -> fileSystem.createDirectoryInGitSubdirectory(folder.getFolderName()));
-        Arrays.stream(Files.values()).forEach(file -> fileSystem.createFileInGitSubdirectory(file.getFolderName()));
+        Arrays.stream(GitFolders.values()).forEach(folder -> fileSystem.createDirectoryInGitSubdirectory(folder.getFolderName()));
+        Arrays.stream(GitFiles.values()).forEach(file -> fileSystem.createFileInGitSubdirectory(file.getFolderName()));
         fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + HEAD_FILE), HEAD);
         fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + CONFIG_FILE), CONFIG);
         fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + DESCRIPTION_FILE), DESCRIPTION);
