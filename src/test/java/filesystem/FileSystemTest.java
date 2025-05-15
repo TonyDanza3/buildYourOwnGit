@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 import static filesystem.utils.FileSystemTestUtils.*;
 import static filesystem.utils.TestData.*;
-import static filesystem.utils.Assertion.*;
+
 public class FileSystemTest {
 
     private final FileSystem fileSystem = new FileSystem();
