@@ -11,7 +11,7 @@ public enum GitFiles {
         this.fileName = fileName;
     }
 
-    public String getFolderName(){
+    public String getFileName(){
         return this.fileName;
     }
 }
