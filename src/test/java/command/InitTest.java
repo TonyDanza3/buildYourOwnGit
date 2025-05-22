@@ -1,6 +1,8 @@
 package command;
 
+import command.commands.Commands;
 import command.commands.init.Init;
+import command.utils.Assertion;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,7 +41,8 @@ public class InitTest {
         List<String> outputs = new ArrayList<>();
         Init init = new Init(() -> INIT_COMMAND_DIRECTORY, outputs::add);
         init.execute();
-        //TODO finish this test
+        Assertion.checkCommandResult(Commands.INIT, INIT_COMMAND_DIRECTORY);
+        //TODO this test fails for unknown reason
     }
 
     @Test
