@@ -1,7 +1,6 @@
 package command;
 
 import command.commands.Commands;
-import filesystem.DirectoryManager;
 import filesystem.FileSystem;
 
 import java.nio.file.Path;
@@ -9,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static constant.ErrorMessage.NOT_A_GIT_REPOSITORY;
-import static constant.Names.GIT_FOLDER;
+import static constant.Names.GIT_FOLDER_NAME;
 
 public abstract class Command {
 
@@ -49,7 +48,7 @@ public abstract class Command {
     }
     //TODO: move to fileSystem class or another class
     public final boolean isGitRepo() {
-        return fileSystem.hasFileOrDirectory(fileSystem.currentDirectory, GIT_FOLDER);
+        return fileSystem.hasFileOrDirectory(fileSystem.currentDirectory, GIT_FOLDER_NAME);
     }
 
     public String getCommandName() {

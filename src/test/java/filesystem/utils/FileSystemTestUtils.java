@@ -66,6 +66,14 @@ public class FileSystemTestUtils {
         }
     }
 
+    public static String fileToString(Path path) {
+        try {
+            return new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static boolean fileContentsIsEqualTo(String fileContents, String equalTo) {
         return fileContents.trim().equals(equalTo.trim());
     }
