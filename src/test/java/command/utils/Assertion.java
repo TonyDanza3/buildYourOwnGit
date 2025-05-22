@@ -40,10 +40,10 @@ public class Assertion {
         assertions.assertThat(fileContentsIsEqualTo(gitConfigPath, CONFIG_FILE_TEMPLATE))
                 .withFailMessage(FILE_CONTENTS_WRONG.formatted(GitFiles.CONFIG.getFileName(), CONFIG_FILE_TEMPLATE, fileToString(gitConfigPath)))
                 .isTrue();
-        assertions.assertThat(fileContentsIsEqualTo(gitConfigPath, HEAD_FILE_TEMPLATE))
+        assertions.assertThat(fileContentsIsEqualTo(gitHeadPath, HEAD_FILE_TEMPLATE))
                 .withFailMessage(FILE_CONTENTS_WRONG.formatted(GitFiles.HEAD.getFileName(), HEAD_FILE_TEMPLATE, fileToString(gitHeadPath)))
                 .isTrue();
-        assertions.assertThat(fileContentsIsEqualTo(gitConfigPath, DESCRIPTION_FILE_TEMPLATE))
+        assertions.assertThat(fileContentsIsEqualTo(gitDescriptionPath, DESCRIPTION_FILE_TEMPLATE))
                 .withFailMessage(FILE_CONTENTS_WRONG.formatted(GitFiles.DESCRIPTION.getFileName(), DESCRIPTION_FILE_TEMPLATE, fileToString(gitDescriptionPath)))
                 .isTrue();
         assertions.assertAll();
