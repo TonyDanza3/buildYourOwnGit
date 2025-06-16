@@ -42,7 +42,6 @@ public class InitTest {
         Init init = new Init(() -> INIT_COMMAND_DIRECTORY, outputs::add);
         init.execute();
         Assertion.checkCommandResult(Commands.INIT, INIT_COMMAND_DIRECTORY);
-        //TODO this test fails for unknown reason
     }
 
     @Test

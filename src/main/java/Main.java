@@ -12,5 +12,17 @@ public class Main {
             command.execute();
         }
     }
-// TODO: is it a good idea to add generateOutput() method to Command class?
+/* TODO:
+    next command to implement is git stage
+
+    STATUS command and possible cases
+        not a repo
+        does not have changed files (nothing to commit)
+        has changed unstaged files
+        has changed staged files
+
+    INIT command
+        (+)init new repo
+        reinitialize repo
+  */
 }
