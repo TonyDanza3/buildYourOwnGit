@@ -18,7 +18,7 @@ public class Hash {
             throw new RuntimeException("Could not get hash of file " + file + " because of the following exception: " + e);
         }
         for(byte byt: hashBytes) {
-            hashString.append(byt);
+            hashString.append(String.format("%02x", byt));
         }
         return hashString.toString();
     }
