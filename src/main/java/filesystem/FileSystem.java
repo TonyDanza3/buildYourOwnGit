@@ -1,5 +1,7 @@
 package filesystem;
 
+import lombok.Getter;
+
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
@@ -8,6 +10,7 @@ public class FileSystem {
     private final FileEditor fileEditor = new FileEditor();
     private final DirectoryManager directoryManager = new DirectoryManager();
     public Path currentDirectory;
+    @Getter
     Supplier<Path> getCurrentDirectory;
 
     public FileSystem (Supplier<Path> getCurrentDirectory) {
