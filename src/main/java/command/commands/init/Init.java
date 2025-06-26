@@ -38,9 +38,9 @@ public class Init extends Command {
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + GIT_FOLDER_NAME));
         Arrays.stream(GitFolders.values()).forEach(folder -> fileSystem.createDirectoryInGitSubdirectory(folder.getFolderName()));
         Arrays.stream(GitFiles.values()).forEach(file -> fileSystem.createFileInGitSubdirectory(file.getFileName()));
-        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + HEAD_FILE_NAME), HEAD_FILE_TEMPLATE);
-        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + CONFIG_FILE_NAME), CONFIG_FILE_TEMPLATE);
-        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + DESCRIPTION_FILE_NAME), DESCRIPTION_FILE_TEMPLATE);
+        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + HEAD_FILE_SUBDIR), HEAD_FILE_TEMPLATE);
+        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + CONFIG_FILE_SUBDIR), CONFIG_FILE_TEMPLATE);
+        fileSystem.putContentToFile(Path.of(fileSystem.currentDirectory + "/" + DESCRIPTION_FILE_SUBDIR), DESCRIPTION_FILE_TEMPLATE);
         routeCommandOutput.accept(REPO_INITIALIZED.formatted(fileSystem.currentDirectory));
     }
 }
