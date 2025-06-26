@@ -23,12 +23,14 @@ public class Init extends Command {
     }
 
     @Override
-    public void executeCommand() {
+    public void executeCommand(String[]args) {
         initializeRepo();
     }
 
     @Override
-    public void validateArgs() {}
+    public boolean validateArgs(String[]args) {
+        return true;
+    }
 
     private void reinitializeRepo() {}
 

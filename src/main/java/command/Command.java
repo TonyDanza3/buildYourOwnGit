@@ -29,23 +29,26 @@ public abstract class Command {
     }
 
     //TODO implement this logic here because it is the same logic for every command
-    protected abstract void validateArgs();
+    protected abstract boolean validateArgs(String[]args);
 
-    protected abstract void executeCommand();
+    protected abstract void executeCommand(String[]args);
 
-    public final void execute() {
+    public final void execute(String ... args) {
         if (this.commandName.equals("init")) {
-            validateArgs();
-            executeCommand();
+            if (validateArgs(args)) {
+                executeCommand(args);
+            }
         } else {
             if (!isGitRepo()) {
                 System.out.println(NOT_A_GIT_REPOSITORY);
                 return;
             }
-            validateArgs();
-            executeCommand();
+            if (validateArgs(args)) {
+                executeCommand(args);
+            }
         }
     }
+
     //TODO: move to fileSystem class or another class
     public final boolean isGitRepo() {
         return fileSystem.hasFileOrDirectory(fileSystem.currentDirectory, GIT_FOLDER_NAME);

@@ -3,13 +3,15 @@ import command.CommandFactory;
 import command.commands.Commands;
 import command.validator.CommandValidator;
 
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
         CommandValidator commandValidator = new CommandValidator();
         if (commandValidator.isValid(args[0])) {
             Command command = CommandFactory.createCommand(Commands.getByCommandName(args[0]));
-            command.execute();
+            command.execute(Arrays.copyOfRange(args, 1, args.length));
         }
     }
 /* TODO:

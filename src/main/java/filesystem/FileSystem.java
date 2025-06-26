@@ -56,4 +56,8 @@ public class FileSystem {
     public boolean hasFileOrDirectory(Path path, String fileName) {
         return directoryManager.containsFile(path, fileName);
     }
+
+    public boolean fileOnSuchPathExists(Path path) {
+        return hasFileOrDirectory(FileUtils.getDirectoryFromPath(path), String.valueOf(FileUtils.getFileNameFromPath(path)));
+    }
 }
