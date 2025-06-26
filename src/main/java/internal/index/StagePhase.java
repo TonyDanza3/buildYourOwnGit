@@ -11,7 +11,16 @@ public enum StagePhase {
         this.phase = phase;
     }
 
-    public int getPhase() {
+    public int getPhaseNumber() {
         return phase;
+    }
+
+    public StagePhase getPhaseByNumber(int phaseNumber) {
+        for (StagePhase phase : StagePhase.values()) {
+            if (phase.getPhaseNumber() == phaseNumber) {
+                return phase;
+            }
+        }
+        throw new RuntimeException("There is no stage phase with number " + phaseNumber);
     }
 }
