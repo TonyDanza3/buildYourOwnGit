@@ -15,7 +15,7 @@ public enum StagePhase {
         return phase;
     }
 
-    public StagePhase getPhaseByNumber(int phaseNumber) {
+    public static StagePhase getPhaseByNumber(int phaseNumber) {
         for (StagePhase phase : StagePhase.values()) {
             if (phase.getPhaseNumber() == phaseNumber) {
                 return phase;

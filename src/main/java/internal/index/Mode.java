@@ -16,10 +16,10 @@ public enum Mode {
         return mode;
     }
 
-    public Mode getMode(int modeNumber) {
+    public static Mode getMode(int modeNumber) {
         for(Mode mode: Mode.values()) {
             if(mode.getNumberOfMOde() == modeNumber){
-                return  mode;
+                return mode;
             }
         }
         throw new RuntimeException("There is no mode with number " + modeNumber);
