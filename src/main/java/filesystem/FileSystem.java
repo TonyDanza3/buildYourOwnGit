@@ -2,6 +2,8 @@ package filesystem;
 
 import lombok.Getter;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
@@ -10,12 +12,11 @@ public class FileSystem {
     private final FileEditor fileEditor = new FileEditor();
     private final DirectoryManager directoryManager = new DirectoryManager();
     public Path currentDirectory;
-    @Getter
-    Supplier<Path> getCurrentDirectory;
+    Supplier<Path> currentDirectorySupplier;
 
-    public FileSystem (Supplier<Path> getCurrentDirectory) {
-        this.getCurrentDirectory = getCurrentDirectory;
-        currentDirectory = getCurrentDirectory.get();
+    public FileSystem (Supplier<Path> currentDirectorySupplier) {
+        this.currentDirectorySupplier = currentDirectorySupplier;
+        currentDirectory = currentDirectorySupplier.get();
     }
 
     public FileSystem () {
@@ -37,6 +38,18 @@ public class FileSystem {
     public void putContentToFile(Path file, String content) {
         createFile(file);
         fileEditor.replaceFileContents(file, content);
+    }
+
+    public void appendLineToFile(Path filePath, String line) {
+        fileEditor.appendToFile(filePath, line);
+    }
+
+    public String getFileContentsAsString(Path path) {
+        try {
+            return new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not convert contents of " + path + " file to string");
+        }
     }
 
 //TODO cover with tests
@@ -62,5 +75,9 @@ public class FileSystem {
 
     public boolean fileOnSuchPathExists(Path path) {
         return hasFileOrDirectory(FileUtils.getDirectoryFromPath(path), String.valueOf(FileUtils.getFileNameFromPath(path)));
+    }
+
+    public Path getCurrentDirectory() {
+        return currentDirectory;
     }
 }
