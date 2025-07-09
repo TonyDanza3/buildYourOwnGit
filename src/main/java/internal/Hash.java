@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Hash {
+
     public static String getHashFromFile(File file) {
         byte[] hashBytes;
         StringBuilder hashString = new StringBuilder();
@@ -22,4 +23,21 @@ public class Hash {
         }
         return hashString.toString();
     }
+
+    public static String getFirstTwoSymbolsFromHash(String hash) {
+        StringBuilder result = new StringBuilder();
+        for(int i = 0; i <=1; i++) {
+            result.append(hash.toCharArray()[i]);
+        }
+        return result.toString();
+    }
+
+    public static String getOther38SymbolsFromHash(String hash) {
+        StringBuilder result = new StringBuilder();
+        for(int i = 2; i <=39; i++) {
+            result.append(hash.toCharArray()[i]);
+        }
+        return result.toString();
+    }
+
 }

@@ -3,7 +3,8 @@ package command.commands.init;
 public enum GitFiles {
     HEAD("HEAD"),
     CONFIG("config"),
-    DESCRIPTION("description");
+    DESCRIPTION("description"),
+    INDEX("index");
 
     private final String fileName;
 

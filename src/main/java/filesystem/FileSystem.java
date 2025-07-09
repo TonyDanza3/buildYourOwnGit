@@ -5,7 +5,6 @@ import lombok.Getter;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-
 public class FileSystem {
     private final FileManager fileManager = new FileManager();
     private final FileEditor fileEditor = new FileEditor();

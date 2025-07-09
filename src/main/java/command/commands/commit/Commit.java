@@ -10,6 +10,7 @@ public class Commit extends Command {
     }
     @Override
     protected boolean validateArgs(String[]args) {
+        //temporary
         return true;
     }
 

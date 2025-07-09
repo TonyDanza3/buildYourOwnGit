@@ -18,8 +18,8 @@ public class Index {
 
     public Index(FileSystem fileSystem) {
         this.fileSystem = fileSystem;
-        indexFile = new File((fileSystem.getCurrentDirectorySupplier().get() + "/" + INDEX_FILE_SUBDIR));
-        objectsFolder = Path.of(fileSystem.getCurrentDirectorySupplier().get() + "/" + OBJECTS_FOLDER_SUB_DIR);
+        indexFile = new File((fileSystem.getGetCurrentDirectory().get() + "/" + INDEX_FILE_SUBDIR));
+        objectsFolder = Path.of(fileSystem.getGetCurrentDirectory().get() + "/" + OBJECTS_FOLDER_SUB_DIR);
     }
 
     public void addToIndex() {
