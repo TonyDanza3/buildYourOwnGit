@@ -2,7 +2,6 @@ package internal.index;
 
 import lombok.Builder;
 
-@Builder
 public class IndexRecord {
 
     public IndexRecord(IndexRecordBuilder builder) {
