@@ -9,12 +9,12 @@ public class Commit extends Command {
         super(Commands.COMMIT);
     }
     @Override
-    protected void validateArgs() {
-
+    protected boolean validateArgs(String[]args) {
+        return true;
     }
 
     @Override
-    protected void executeCommand() {
+    protected void executeCommand(String[]args) {
 
     }
 }

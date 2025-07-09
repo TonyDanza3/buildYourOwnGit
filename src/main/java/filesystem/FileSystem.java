@@ -5,17 +5,18 @@ import lombok.Getter;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
+
 public class FileSystem {
     private final FileManager fileManager = new FileManager();
     private final FileEditor fileEditor = new FileEditor();
     private final DirectoryManager directoryManager = new DirectoryManager();
     public Path currentDirectory;
     @Getter
-    Supplier<Path> getCurrentDirectory;
+    Supplier<Path> currentDirectorySupplier;
 
-    public FileSystem (Supplier<Path> getCurrentDirectory) {
-        this.getCurrentDirectory = getCurrentDirectory;
-        currentDirectory = getCurrentDirectory.get();
+    public FileSystem (Supplier<Path> currentDirectorySupplier) {
+        this.currentDirectorySupplier = currentDirectorySupplier;
+        currentDirectory = currentDirectorySupplier.get();
     }
 
     public FileSystem () {
