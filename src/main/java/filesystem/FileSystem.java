@@ -41,6 +41,10 @@ public class FileSystem {
         fileEditor.replaceFileContents(file, content);
     }
 
+    public void appendLineToFile(Path filePath, String line) {
+        fileEditor.appendToFile(filePath, line);
+    }
+
     public String getFileContentsAsString(Path path) {
         try {
             return new String(Files.readAllBytes(path));
