@@ -2,6 +2,8 @@ package filesystem;
 
 import lombok.Getter;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
@@ -37,6 +39,14 @@ public class FileSystem {
     public void putContentToFile(Path file, String content) {
         createFile(file);
         fileEditor.replaceFileContents(file, content);
+    }
+
+    public String getFileContentsAsString(Path path) {
+        try {
+            return new String(Files.readAllBytes(path));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not convert contents of " + path + " file to string");
+        }
     }
 
 //TODO cover with tests
