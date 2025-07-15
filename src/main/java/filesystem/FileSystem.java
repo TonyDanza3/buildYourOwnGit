@@ -2,10 +2,16 @@ package filesystem;
 
 import lombok.Getter;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileSystem {
     private final FileManager fileManager = new FileManager();
@@ -24,7 +30,7 @@ public class FileSystem {
         currentDirectory = Path.of(System.getProperty("user.dir"));
     }
 
-    //TODO: crateFile() must take String fileName as an argument
+    //TODO: createFile() must take String fileName as an argument
     public void createFile(Path path) {
         directoryManager.createDirectoryIfNotExists(FileUtils.getDirectoryFromPath(path));
         fileManager.createFile(path);
@@ -56,6 +62,29 @@ public class FileSystem {
 //TODO cover with tests
     public void createDirectory(Path path) {
         directoryManager.createDirectory(path);
+    }
+
+    public List<Path> getSubfoldersFromDirectory(Path dir) {
+        List<Path> childDirectories = new ArrayList<>();
+        try(Stream<Path> allChildObjects = Files.list(dir)) {
+            childDirectories = allChildObjects.filter(child -> new File(String.valueOf(child)).isDirectory())
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println("Could not get children of directory " + dir);
+        }
+        return childDirectories;
+    }
+
+    public List<Path> getSubfoldersFromDirectory(Path dir, Path ... excluding) {
+        List<Path> childDirectories = new ArrayList<>();
+        try(Stream<Path> allChildObjects = Files.list(dir)) {
+            childDirectories = allChildObjects.filter(child -> new File(String.valueOf(child)).isDirectory())
+                    .filter(child -> Arrays.stream(excluding).noneMatch(excl ->child.equals(excl)))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println("Could not get children of directory " + dir);
+        }
+        return childDirectories;
     }
 
     public void createDirectoryInGitSubdirectory(String fileName) {
