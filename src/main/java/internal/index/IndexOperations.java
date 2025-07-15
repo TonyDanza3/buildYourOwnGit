@@ -21,8 +21,8 @@ public class IndexOperations {
 
     public IndexOperations(FileSystem fileSystem) {
         this.fileSystem = fileSystem;
-        indexFile = new File((fileSystem.getCurrentDirectory() + "/" + INDEX_FILE_SUBDIR));
-        objectsFolder = Path.of(fileSystem.getCurrentDirectory() + "/" + OBJECTS_FOLDER_SUB_DIR);
+        indexFile = new File((fileSystem.getCurrentDirectorySupplier().get() + "/" + INDEX_FILE_SUBDIR));
+        objectsFolder = Path.of(fileSystem.getCurrentDirectorySupplier().get() + "/" + OBJECTS_FOLDER_SUB_DIR);
 
     }
 
@@ -52,8 +52,7 @@ public class IndexOperations {
         String firstTwoLettersOfHash = getFirstTwoSymbolsFromHash(hash);
         Path pathOfNewPseudoBlob = Path.of(fileSystem.currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR + "/" + firstTwoLettersOfHash + "/" + getOther38SymbolsFromHash(hash));
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR + "/" + firstTwoLettersOfHash));
-        generatePseudoBlobFile(fileSystem, pathOfNewPseudoBlob, fileSystem.getFileContentsAsString(Path.of(fileName)));
-
+        generatePseudoBlobFile(fileSystem, pathOfNewPseudoBlob, new File(fileName));
         addFileRecordToIndexFile(fileName, hash);
     }
 
