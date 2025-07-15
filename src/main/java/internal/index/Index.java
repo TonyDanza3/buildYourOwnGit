@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import static constant.Names.INDEX_FILE_SUBDIR;
 import static constant.Names.OBJECTS_FOLDER_SUB_DIR;
 
+//TODO: is this still a needed class?
 public class Index {
     //add
     //checkIfInIndex
