@@ -35,6 +35,7 @@ public abstract class Command {
 
     public final void execute(String ... args) {
         if (this.commandName.equals("init")) {
+            //TODO: this if on 39 could be deleted
             if (validateArgs(args)) {
                 executeCommand(args);
             }
