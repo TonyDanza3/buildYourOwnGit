@@ -11,7 +11,7 @@ import java.util.List;
 
 import static constant.Names.*;
 import static internal.Hash.*;
-import static internal.PseudoBlob.generatePseudoBlobFile;
+import static internal.PseudoBlob.generateAndPlacePseudoBlobFile;
 
 public class IndexOperations {
 
@@ -52,7 +52,7 @@ public class IndexOperations {
         String firstTwoLettersOfHash = getFirstTwoSymbolsFromHash(hash);
         Path pathOfNewPseudoBlob = Path.of(fileSystem.currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR + "/" + firstTwoLettersOfHash + "/" + getOther38SymbolsFromHash(hash));
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR + "/" + firstTwoLettersOfHash));
-        generatePseudoBlobFile(fileSystem, pathOfNewPseudoBlob, new File(fileName));
+        generateAndPlacePseudoBlobFile(fileSystem, pathOfNewPseudoBlob, new File(fileName));
         addFileRecordToIndexFile(fileName, hash);
     }
 
