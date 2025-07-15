@@ -14,6 +14,4 @@ public class IndexRecord {
     private final String objectSHA;
     private final StagePhase stagePhase;
     private final String fileName;
-
-
 }

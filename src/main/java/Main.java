@@ -26,5 +26,8 @@ public class Main {
     INIT command
         (+)init new repo
         reinitialize repo
+
+    REFACTOR:
+        Its not intuitive where to look for FileSystem methods - in FileSystem class or in FileUtils class
   */
 }

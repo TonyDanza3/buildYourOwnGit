@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.List;
 
-import static constant.Names.GIT_FOLDER_NAME;
 import static constant.Names.OBJECTS_FOLDER_SUB_DIR;
 import static filesystem.utils.FileSystemTestUtils.recursivelyRemoveDirectory;
 import static filesystem.utils.TestData.RESOURCES_DIR;
@@ -39,7 +37,7 @@ public class PseudoBlobTest {
         Path resultingBlobPath = Path.of(objectFolder + "/" + "blobFile");
         fileSystem.createFile(initialFilePath);
         fileSystem.putContentToFile(initialFilePath, "Content is sooo content");
-        PseudoBlob.generatePseudoBlobFile(fileSystem, resultingBlobPath, new File(String.valueOf(initialFilePath)));
+        PseudoBlob.generateAndPlacePseudoBlobFile(fileSystem, resultingBlobPath, new File(String.valueOf(initialFilePath)));
         String resultingString = fileSystem.getFileContentsAsString(resultingBlobPath);
         String[] resultingStringTokenized = resultingString.split(" ");
         assertThat(resultingStringTokenized[0].equals("blob"))
