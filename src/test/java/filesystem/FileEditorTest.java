@@ -37,8 +37,14 @@ public class FileEditorTest {
         Assertion.fileContentsEqualTo(FILE_ONE, MAIN_METHOD_FORMATTED);
     }
 
+    //TODO: to be implemented
     @Test
-    public void writeToEmptyFile() {
+    public void replaceLineInEmptyFile() {
+
+    }
+
+    @Test
+    public void replaceContentOfEmptyFile() {
         String expected = MAIN_METHOD_FORMATTED + "\n\n" + ADDITIONAL_METHOD;
         fileEditor.replaceFileContents(FILE_TWO, expected);
         Assertion.fileContentsEqualTo(FILE_TWO, expected);
