@@ -2,6 +2,7 @@ package filesystem;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -29,13 +30,23 @@ public class FileUtils {
         checkIfFile(path);
         int fileLinesAmount;
         try {
-            fileLinesAmount = Files.lines(path).toList().size();
+            fileLinesAmount = Files.lines(path, StandardCharsets.UTF_8).toList().size();
+            if(fileLinesAmount == 0) {
+                return;
+            }
         } catch (IOException e) {
             throw new RuntimeException("Could not get lines amount of file " + path + ": ", e);
         }
-        if (lineNumber > fileLinesAmount - 1) {
+        if (lineNumber > fileLinesAmount ) {
             throw new RuntimeException("Specified line number '" + lineNumber + "' exceeds file lines amount");
         }
+    }
+    public static boolean checkDirectoryExists(Path directory) {
+        File file = new File(directory.toString());
+        if (file.isFile()) {
+            throw new RuntimeException(directory + " is expected to be a directory but it is a file");
+        }
+        return file.exists();
     }
 
     public static Path getDirectoryFromPath(Path dir) {
