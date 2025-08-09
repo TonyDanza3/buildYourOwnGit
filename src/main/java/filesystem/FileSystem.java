@@ -51,6 +51,10 @@ public class FileSystem {
         fileEditor.appendToFile(filePath, line);
     }
 
+    public void replaceLineInFile(Path path, int lineNumber, String newValue) {
+        fileEditor.replaceLine(path, lineNumber, newValue);
+    }
+
     public String getFileContentsAsString(Path path) {
         try {
             return new String(Files.readAllBytes(path));
