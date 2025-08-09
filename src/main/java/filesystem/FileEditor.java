@@ -25,6 +25,9 @@ public class FileEditor {
         checkIfFile(path);
         checkIfExceedsFileSize(path, lineNumber);
         try (Stream<String> lines = Files.lines(path)) {
+            if(countLines(path) == 0) {
+                appendToFile(path, newValue);
+            }
             ArrayList<String> linesList = new ArrayList<>(lines.toList());
             linesList.set(lineNumber - 1, newValue);
             replaceFileContents(path, composeFileContentsWithoutTrailingNextLine(linesList));
