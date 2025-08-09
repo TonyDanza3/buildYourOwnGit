@@ -43,6 +43,17 @@ public class InitTest {
         init.execute();
         Assertion.checkCommandResult(Commands.INIT, INIT_COMMAND_DIRECTORY);
     }
+    //TODO: implement these as well
+    @Test
+    public void reInitInRepoFolder() {
+
+    }
+
+    @Test
+    public void initInEmptyFolder() {}
+
+    @Test
+    public void initInNonEmptyFolder() {}
 
     @Test
     public void checkInfoMessage() {
