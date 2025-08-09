@@ -4,12 +4,14 @@ import filesystem.FileSystem;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static constant.Names.*;
+import static filesystem.FileUtils.checkDirectoryExists;
 import static internal.Hash.*;
 import static internal.PseudoBlob.generateAndPlacePseudoBlobFile;
 
@@ -25,24 +27,27 @@ public class IndexOperations {
         objectsFolder = Path.of(fileSystem.getCurrentDirectorySupplier().get() + "/" + OBJECTS_FOLDER_SUB_DIR);
 
     }
-
+//TODO: this is broken implementation, need to debug and fix this. Also it needs refac: duplicating logic must be removed
     public void addToIndex(String fileName) {
         if (fileSystem.fileOnSuchPathExists(Path.of(fileName))) {
             if (fileExistsInIndexFile(fileName)) {
                 if (fileExistsInObjectsFolder(getHashFromFile(new File(fileName)))) {
                     return;
                 } else {
-
+                    addFileBlobToObjectsFolder(fileName);
+                    replaceFileRecordInIndexFile(fileName, getHashFromFile(new File(fileName)));
                 }
             } else {
+                addFileBlobToObjectsFolder(fileName);
+                replaceFileRecordInIndexFile(fileName, getHashFromFile(new File(fileName)));
             }
 
         } else {
-
+            return;
         }
     }
 
-    private void addFileToObjectsFolder(String fileName) throws IllegalArgumentException {
+    private void addFileBlobToObjectsFolder(String fileName) throws IllegalArgumentException {
         if (fileExistsInObjectsFolder(fileName)) {
             throw new IllegalArgumentException("Could not add file " + fileName + " in objects folder because it is already there");
         }
@@ -53,10 +58,10 @@ public class IndexOperations {
         Path pathOfNewPseudoBlob = Path.of(fileSystem.currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR + "/" + firstTwoLettersOfHash + "/" + getOther38SymbolsFromHash(hash));
         fileSystem.createDirectory(Path.of(fileSystem.currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR + "/" + firstTwoLettersOfHash));
         generateAndPlacePseudoBlobFile(fileSystem, pathOfNewPseudoBlob, new File(fileName));
-        addFileRecordToIndexFile(fileName, hash);
     }
 
-    private void addFileRecordToIndexFile(String fileName, String fileHash) {
+    private void replaceFileRecordInIndexFile(String fileName, String fileHash) {
+        int lineNumberInIndexFile = getLineNumberInIndexFileByFileName(fileName);
         String indexFileRecord = Mode.USUAL_FILE.getNumberOfMOde()
                 + " "
                 + fileHash
@@ -64,7 +69,23 @@ public class IndexOperations {
                 + StagePhase.NO_CONFLICT.getPhaseNumber()
                 + "\t"
                 + fileName;
-        fileSystem.appendLineToFile(Path.of(INDEX_FILE_SUBDIR), indexFileRecord);
+        fileSystem.replaceLineInFile(Path.of(fileSystem.currentDirectory + "/" + INDEX_FILE_SUBDIR), lineNumberInIndexFile, indexFileRecord);
+    }
+
+    private int getLineNumberInIndexFileByFileName(String fileName) {
+        List<IndexRecord> allIndexRecords = new ArrayList<>();
+        try {
+            allIndexRecords = indexFileAsList().stream().toList();
+        } catch (IOException e) {
+            return 1;
+        }
+
+        for (IndexRecord record : allIndexRecords) {
+            if (record.getFileName().equals(fileName)) {
+                return allIndexRecords.indexOf(record);
+            }
+        }
+        throw new RuntimeException("Unable to find file with name " + fileName + " in index file");
     }
 
     private boolean fileExistsInIndexFile(String fileName) {
@@ -77,7 +98,13 @@ public class IndexOperations {
     }
 
     private boolean fileExistsInObjectsFolder(String hash) {
-        return true;
+        return checkDirectoryExists(Path.of(OBJECTS_FOLDER_SUB_DIR + "/" + getFirstTwoSymbolsFromHash(hash)))
+                && checkDirectoryExists(
+                Path.of(
+                        OBJECTS_FOLDER_SUB_DIR +
+                                "/" + getFirstTwoSymbolsFromHash(hash) +
+                                "/" + getOther38SymbolsFromHash(hash)
+                ));
     }
 
     private IndexRecord getFileRecordFromIndexFile(String fileName) throws IOException {
@@ -97,7 +124,7 @@ public class IndexOperations {
 
     private List<IndexRecord> indexFileAsList() throws IOException {
         List<IndexRecord> allIndexRecords = new ArrayList<>();
-        Arrays.asList(indexFile.list()).forEach(string -> {
+        Files.readAllLines(indexFile.toPath()).forEach(string -> {
             String[] tokenizedString = string.split(" ");
             allIndexRecords.add(IndexRecord.builder()
                     .mode(Mode.getMode(Integer.parseInt(tokenizedString[0])))
