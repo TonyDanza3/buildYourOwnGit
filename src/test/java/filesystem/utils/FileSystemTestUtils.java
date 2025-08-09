@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class FileSystemTestUtils {
 
@@ -25,7 +27,7 @@ public class FileSystemTestUtils {
 
     public static void recursivelyRemoveDirectory(Path filePath) {
         File[] directoryToDelete = new File(filePath.toString()).listFiles();
-        if(directoryToDelete != null) {
+        if (directoryToDelete != null) {
             for (File file : directoryToDelete) {
                 recursivelyRemoveDirectory(Paths.get(file.getPath()));
             }
@@ -63,6 +65,12 @@ public class FileSystemTestUtils {
             return fileContents.equals(equalTo);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean getLineNumberInIndexFileByFileName(Path path) throws IOException {
+        try (Stream<Path> children = Files.list(path)) {
+            return children.toList().isEmpty();
         }
     }
 
