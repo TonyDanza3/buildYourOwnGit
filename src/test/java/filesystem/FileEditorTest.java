@@ -1,5 +1,6 @@
 package filesystem;
 
+import filesystem.utils.FileSystemTestUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,11 @@ public class FileEditorTest {
     //TODO: to be implemented
     @Test
     public void replaceLineInEmptyFile() {
+        Path emptyFilePath = Path.of(FILE_EDITOR_DIRECTORY + "/" + "emptyFile");
+        String addedString = "New Line!";
+        createFile(emptyFilePath);
+        fileEditor.replaceLine(emptyFilePath, 1, addedString);
+        Assertion.fileContentsEqualTo(emptyFilePath,addedString);
 
     }
 
