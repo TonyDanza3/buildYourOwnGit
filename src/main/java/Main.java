@@ -29,5 +29,6 @@ public class Main {
 
     REFACTOR:
         Its not intuitive where to look for FileSystem methods - in FileSystem class or in FileUtils class
+        maybe add methods like getIndexDirectory() to FileSystem to reuse them everywhere. This will allow us to avoid constructind such directories like "currentDir + "/" + INDEX_DIR"
   */
 }
