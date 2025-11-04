@@ -17,10 +17,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class Assertion {
 
 
-    public static void fileAddedToIndexFile(FileSystem fileSystem, Path filePath) {
+    public static void fileAddedToIndexFile(FileSystem fileSystem, String fileName) {
         IndexOperations indexOperations = new IndexOperations(fileSystem);
-        assertThat(indexOperations.fileExistsInObjectsFolder(Hash.getHashFromFile(new File(fileSystem.currentDirectory + "/" + filePath))))
-                .withFailMessage("File " + filePath + " was not added to index file. Current index file contents is: \n \n" + getIndexFileContents(fileSystem) + "\n")
+        assertThat(indexOperations.fileExistsInIndexFile(fileName))
+                .withFailMessage("File " + fileName + " was not added to index file. Current index file contents is: \n \n" + getIndexFileContents(fileSystem) + "\n")
                 .isTrue();
     }
 

@@ -59,7 +59,7 @@ public class IndexOperations {
                     .anyMatch(
                             record ->
                                     record.getFileName().equals(fileName) &&
-                                    record.getObjectSHA().equals(Hash.getHashFromFile(new File(fileName)))
+                                    record.getObjectSHA().equals(Hash.getHashFromFile(new File(fileSystem.currentDirectory + "/" + fileName)))
                     );
         } catch (IOException e) {
             return false;
@@ -96,7 +96,7 @@ public class IndexOperations {
                 + fileHash
                 + " "
                 + StagePhase.NO_CONFLICT.getPhaseNumber()
-                + "\t"
+                + " "
                 + fileName;
         fileSystem.replaceLineInFile(Path.of(fileSystem.currentDirectory + "/" + INDEX_FILE_SUBDIR), lineNumberInIndexFile, indexFileRecord);
     }
