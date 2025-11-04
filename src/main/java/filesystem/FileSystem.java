@@ -13,7 +13,10 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static constant.Names.OBJECTS_FOLDER_SUB_DIR;
+
 public class FileSystem {
+//    TODO: should separate methods from this class to several classes because now it looks like superclass
     private final FileManager fileManager = new FileManager();
     private final FileEditor fileEditor = new FileEditor();
     private final DirectoryManager directoryManager = new DirectoryManager();
@@ -27,6 +30,7 @@ public class FileSystem {
     }
 
     public FileSystem () {
+        currentDirectorySupplier = () -> Path.of(System.getProperty("user.dir"));
         currentDirectory = Path.of(System.getProperty("user.dir"));
     }
 
@@ -105,6 +109,10 @@ public class FileSystem {
 
     public boolean hasFileOrDirectory(Path path, String fileName) {
         return directoryManager.containsFile(path, fileName);
+    }
+
+    public Path getObjectsSubdirectory() {
+        return Path.of(currentDirectory + "/" + OBJECTS_FOLDER_SUB_DIR);
     }
 
     public boolean fileOnSuchPathExists(Path path) {
