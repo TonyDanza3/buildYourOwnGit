@@ -4,6 +4,7 @@ import command.commands.Commands;
 import filesystem.FileSystem;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -13,7 +14,7 @@ import static constant.Names.GIT_FOLDER_NAME;
 public abstract class Command {
 
     protected String commandName;
-    protected FileSystem fileSystem;
+    public FileSystem fileSystem;
     protected Consumer<String> routeCommandOutput;
 
     public Command(Commands commandName, Supplier<Path> defineCurrentDirectory, Consumer<String> routeCommandOutput) {
@@ -45,6 +46,12 @@ public abstract class Command {
                 return;
             }
             if (validateArgs(args)) {
+//                StringBuilder argsBuilder = new StringBuilder();
+//                Arrays.asList(args).forEach(argument -> {
+//                    argsBuilder.append(argument);
+//                    argsBuilder.append(" ");
+//                });
+//                System.out.println("Command invocation of command with args " + argsBuilder);
                 executeCommand(args);
             }
         }
