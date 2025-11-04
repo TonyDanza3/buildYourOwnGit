@@ -38,7 +38,7 @@ public class FileEditorTest {
         Assertion.fileContentsEqualTo(FILE_ONE, MAIN_METHOD_FORMATTED);
     }
 
-    //TODO: to be implemented
+
     @Test
     public void replaceLineInEmptyFile() {
         Path emptyFilePath = Path.of(FILE_EDITOR_DIRECTORY + "/" + "emptyFile");
