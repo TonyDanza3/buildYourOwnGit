@@ -4,6 +4,7 @@ import command.commands.add.Add;
 import command.commands.init.Init;
 import filesystem.FileSystem;;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
@@ -20,7 +21,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class IndexOperationsTest {
     private static final Path rootDir = Path.of(RESOURCES_DIR + "/" + "indexOperationsDir");
     private final FileSystem fileSystem = new FileSystem(() -> rootDir);
+    private static Add add;
+    private static  Init init;
 
+    @BeforeAll
+    public static void initCommands() {
+        init = new Init(() -> rootDir, System.out::println);
+        add = new Add(() -> rootDir, System.out::println);
+    }
 
     @BeforeEach
     public void createLocalRootFolder() {
@@ -34,14 +42,12 @@ public class IndexOperationsTest {
 
     @Test
     public void addEmptyFileToIndex() {
-        Init init = new Init(() -> rootDir, System.out::println);
-        Add add = new Add(() -> rootDir, System.out::println);
         Path fileName = Path.of("fileInIndex");
         createFile(Path.of(rootDir + "/" + fileName));
         init.execute();
         Assertion.checkIndexFileEmpty(fileSystem);
         add.execute(String.valueOf(fileName));
-        Assertion.fileAddedToIndexFile(fileSystem, fileName);
+        Assertion.fileAddedToIndexFile(fileSystem, String.valueOf(fileName));
         Assertion.fileAddedToIndexFolder(fileSystem, fileName);
     }
 
