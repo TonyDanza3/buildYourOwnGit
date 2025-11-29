@@ -111,7 +111,7 @@ public class IndexOperations {
 
         for (IndexRecord record : allIndexRecords) {
             if (record.getFileName().equals(fileName)) {
-                return allIndexRecords.indexOf(record);
+                return allIndexRecords.indexOf(record) + 1;
             }
         }
         throw new RuntimeException("Unable to find file with name " + fileName + " in index file");
