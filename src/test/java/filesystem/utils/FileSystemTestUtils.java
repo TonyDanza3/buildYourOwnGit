@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
 import java.util.stream.Stream;
 
 public class FileSystemTestUtils {
@@ -51,7 +50,7 @@ public class FileSystemTestUtils {
         return file.exists();
     }
 
-    public static void writeToFile(Path path, String string) {
+    public static void appendToFile(Path path, String string) {
         try {
             Files.writeString(path, string, StandardOpenOption.APPEND);
         } catch (IOException e) {

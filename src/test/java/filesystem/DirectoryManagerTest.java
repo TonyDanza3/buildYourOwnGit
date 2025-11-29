@@ -65,7 +65,7 @@ public class DirectoryManagerTest {
         directoryManager.createDirectory(dirOne);
         directoryManager.createDirectory(dirTwo);
         createFile(file);
-        writeToFile(file, FILE_CONTENTS);
+        appendToFile(file, FILE_CONTENTS);
 
         Assertion.directoryExists(dirOne);
         Assertion.directoryExists(dirTwo);

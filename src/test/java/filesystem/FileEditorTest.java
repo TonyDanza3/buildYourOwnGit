@@ -23,7 +23,7 @@ public class FileEditorTest {
         createDirIfNotExists(FILE_EDITOR_DIRECTORY);
         createFile(FILE_ONE);
         createFile(FILE_TWO);
-        writeToFile(FILE_ONE, MAIN_METHOD_UNFORMATTED);
+        FileSystemTestUtils.appendToFile(FILE_ONE, MAIN_METHOD_UNFORMATTED);
     }
 
     @AfterAll
