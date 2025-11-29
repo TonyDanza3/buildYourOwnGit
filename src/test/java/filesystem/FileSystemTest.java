@@ -42,7 +42,7 @@ public class FileSystemTest {
     @Test
     public void duplicateDoesNotRewriteFileContents() {
         fileSystem.createFile(FILE_WITH_CONTENTS);
-        fileSystem.putContentToFile(FILE_WITH_CONTENTS, FILE_CONTENTS);
+        fileSystem.replaceFileContents(FILE_WITH_CONTENTS, FILE_CONTENTS);
         Assertion.fileExists(FILE_WITH_CONTENTS);
         Assertion.fileContentsEqualTo(FILE_WITH_CONTENTS, FILE_CONTENTS);
         fileSystem.createFile(FILE_WITH_CONTENTS);
@@ -52,7 +52,7 @@ public class FileSystemTest {
 
     @Test
     public void fillNonExistentFileWithContents() {
-        fileSystem.putContentToFile(NONEXISTENT_FILE, FILE_CONTENTS);
+        fileSystem.replaceFileContents(NONEXISTENT_FILE, FILE_CONTENTS);
         Assertion.fileExists(NONEXISTENT_FILE);
         Assertion.fileContentsEqualTo(NONEXISTENT_FILE, FILE_CONTENTS);
     }
@@ -63,7 +63,7 @@ public class FileSystemTest {
         Path fileInGitDirectory = Path.of(gitDirectory + "/HEAD");
         String fileContent = "ref: refs/heads/main%";
         fileSystem.createDirectory(gitDirectory);
-        fileSystem.putContentToFile(fileInGitDirectory, fileContent);
+        fileSystem.replaceFileContents(fileInGitDirectory, fileContent);
         Assertion.fileExists(fileInGitDirectory);
         Assertion.fileContentsEqualTo(fileInGitDirectory, fileContent);
     }

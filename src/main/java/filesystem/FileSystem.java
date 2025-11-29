@@ -40,13 +40,13 @@ public class FileSystem {
         fileManager.createFile(path);
     }
 
-    //TODO: cover with tests
+    //TODO: cover with tests and this method should not be there
     public void createFileInGitSubdirectory(String fileName) {
         Path gitSubdirectory = Path.of(currentDirectory + "/.git");
         fileManager.createFile(Path.of(gitSubdirectory + "/" + fileName));
     }
 
-    public void putContentToFile(Path file, String content) {
+    public void replaceFileContents(Path file, String content) {
         createFile(file);
         fileEditor.replaceFileContents(file, content);
     }

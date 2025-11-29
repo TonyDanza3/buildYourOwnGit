@@ -36,7 +36,7 @@ public class PseudoBlobTest {
         Path initialFilePath = Path.of(rootDir + "/ oneFile");
         Path resultingBlobPath = Path.of(objectFolder + "/" + "blobFile");
         fileSystem.createFile(initialFilePath);
-        fileSystem.putContentToFile(initialFilePath, "Content is sooo content");
+        fileSystem.replaceFileContents(initialFilePath, "Content is sooo content");
         PseudoBlob.generateAndPlacePseudoBlobFile(fileSystem, resultingBlobPath, new File(String.valueOf(initialFilePath)));
         String resultingString = fileSystem.getFileContentsAsString(resultingBlobPath);
         String[] resultingStringTokenized = resultingString.split(" ");

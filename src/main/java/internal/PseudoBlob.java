@@ -15,6 +15,6 @@ public class PseudoBlob {
                 " " +
                 "\\0" +
                 fileContents;
-        fileSystem.putContentToFile(targetDir, blobContents);
+        fileSystem.replaceFileContents(targetDir, blobContents);
     }
 }
