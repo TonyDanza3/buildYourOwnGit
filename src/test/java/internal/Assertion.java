@@ -24,9 +24,9 @@ public class Assertion {
                 .isTrue();
     }
 
-    public static void fileAddedToIndexFolder(FileSystem fileSystem, Path filePath) {
+    public static void fileAddedToIndexFolder(FileSystem fileSystem, String fileName) {
         IndexOperations indexOperations = new IndexOperations(fileSystem);
-        String hash = Hash.getHashFromFile(new File(String.valueOf(fileSystem.currentDirectory + "/" + filePath)));
+        String hash = Hash.getHashFromFile(new File(String.valueOf(fileSystem.currentDirectory + "/" + fileName)));
         assertThat(indexOperations.fileExistsInObjectsFolder(hash))
                 .withFailMessage("File was not added to objects folder. Hash of file is " + hash + " but " +
                         "the objects folder contains only this subfolders (which probably does not contain) first " +
