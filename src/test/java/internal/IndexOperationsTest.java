@@ -7,13 +7,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.nio.file.Path;
-import java.util.List;
 
-import static command.commands.init.GitFolders.OBJECTS_INFO;
-import static command.commands.init.GitFolders.OBJECTS_PACK;
-import static constant.Names.GIT_FOLDER_NAME;
-import static constant.Names.OBJECTS_FOLDER_SUB_DIR;
+import java.nio.file.Path;
+
 import static filesystem.utils.FileSystemTestUtils.*;
 import static filesystem.utils.TestData.RESOURCES_DIR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -22,7 +18,7 @@ public class IndexOperationsTest {
     private static final Path rootDir = Path.of(RESOURCES_DIR + "/" + "indexOperationsDir");
     private final FileSystem fileSystem = new FileSystem(() -> rootDir);
     private static Add add;
-    private static  Init init;
+    private static Init init;
 
     @BeforeAll
     public static void initCommands() {
@@ -42,24 +38,71 @@ public class IndexOperationsTest {
 
     @Test
     public void addEmptyFileToIndex() {
-        Path fileName = Path.of("fileInIndex");
+        String fileName = "fileInIndex";
         createFile(Path.of(rootDir + "/" + fileName));
         init.execute();
         Assertion.checkIndexFileEmpty(fileSystem);
-        add.execute(String.valueOf(fileName));
-        Assertion.fileAddedToIndexFile(fileSystem, String.valueOf(fileName));
-        Assertion.fileAddedToIndexFolder(fileSystem, fileName);
+        add.execute(fileName);
+        checkFileAddedToIndex(fileName);
     }
 
     @Test
     public void addNonEmptyFileToIndex() {
+        String fileName = "fileInIndexNotEmpty";
+        createFile(Path.of(rootDir + "/" + fileName));
+        appendToFile(Path.of(rootDir + "/" + fileName), "content");
+        init.execute();
+        Assertion.checkIndexFileEmpty(fileSystem);
+        add.execute(fileName);
+        checkFileAddedToIndex(fileName);
+    }
+
+    @Test
+    public void addAddedFileToIndex() {
 
     }
 
     @Test
-    public void addAddedFileToIndex() {}
+    public void addSeveralFilesToIndex() {
+    }
 
     @Test
-    public void addSeveralFilesToIndex() {}
+    public void editAndAddSeveralTimes() {
+        String fileName = "twiceEditedFile";
+        Path filePath = Path.of(rootDir + "/" + fileName);
+        createFile(filePath);
+        appendToFile(filePath, "content");
+        init.execute();
+        Assertion.checkIndexFileEmpty(fileSystem);
+        add.execute(fileName);
+        checkFileAddedToIndex(fileName);
+        appendToFile(filePath, "content2");
+        add.execute(fileName);
+        checkFileAddedToIndex(fileName);
+        appendToFile(filePath, "content3");
+        add.execute(fileName);
+        checkFileAddedToIndex(fileName);
+
+    }
+
+    //MORE TESTS TO IMPLEMENT:
+    //init non empty repo and add
+    //init an empty repo and add
+    //add to index a whole folder with files
+
+    private void checkFileAddedToIndex(String fileName) {
+        Assertion.fileAddedToIndexFile(fileSystem, fileName);
+        Assertion.fileAddedToIndexFolder(fileSystem, fileName);
+    }
+
+    private void createInRoot(String fileName) {
+        createFile(Path.of(rootDir + "/" + Path.of(fileName)));
+    }
+
+    private void createInRootAndAppend(String fileName, String fileContent) {
+        createInRoot(fileName);
+        appendToFile(Path.of(rootDir + "/" + fileName), fileContent);
+
+    }
 
 }
